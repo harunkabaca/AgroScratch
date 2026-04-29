@@ -1,8 +1,10 @@
 /**
  * AgroScratch — Özel Blok Tanımları
- * Okuma-yazma gerektirmeyen ikonik bloklar — Tüm etiketler Türkçe.
+ * FarmBot odaklı kapsamlı blok kütüphanesi
  */
 import * as Blockly from 'blockly';
+
+// ── Scratch-tarzı temel kategoriler ──
 import './categories/events';
 import './categories/control';
 import './categories/motion';
@@ -11,7 +13,18 @@ import './categories/operators';
 import './categories/sensing';
 import './categories/sound';
 
-/* ── HAREKET BLOĞU ─────────────────────────────────── */
+// ── FarmBot özel kategoriler ──
+import './categories/farmbot_watering';
+import './categories/farmbot_seeding';
+import './categories/farmbot_weeding';
+import './categories/farmbot_soil';
+import './categories/farmbot_tools';
+import './categories/farmbot_camera';
+import './categories/farmbot_movement';
+import './categories/farmbot_sequences';
+
+/* ── ESKİ BLOKLAR (geriye uyumluluk) ─────────────────── */
+
 Blockly.Blocks['farmbot_move'] = {
   init() {
     this.jsonInit({
@@ -32,7 +45,6 @@ Blockly.Blocks['farmbot_move'] = {
   },
 };
 
-/* ── SULAMA BLOĞU ──────────────────────────────────── */
 Blockly.Blocks['farmbot_water'] = {
   init() {
     this.jsonInit({
@@ -51,7 +63,6 @@ Blockly.Blocks['farmbot_water'] = {
   },
 };
 
-/* ── BEKLEME BLOĞU ─────────────────────────────────── */
 Blockly.Blocks['farmbot_wait'] = {
   init() {
     this.jsonInit({
@@ -69,7 +80,6 @@ Blockly.Blocks['farmbot_wait'] = {
   },
 };
 
-/* ── DÖNGÜ BLOĞU ───────────────────────────────────── */
 Blockly.Blocks['farmbot_loop'] = {
   init() {
     this.jsonInit({
@@ -91,7 +101,6 @@ Blockly.Blocks['farmbot_loop'] = {
   },
 };
 
-/* ── KOŞUL BLOĞU (Nem Sensörü) ────────────────────── */
 Blockly.Blocks['farmbot_if_sensor'] = {
   init() {
     this.jsonInit({

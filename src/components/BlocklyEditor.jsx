@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState, useMemo } from 'react';
 import * as Blockly from 'blockly';
-import TrLocale from 'blockly/msg/tr';
-import EnLocale from 'blockly/msg/en';
-import DeLocale from 'blockly/msg/de';
+import * as TrLocale from 'blockly/msg/tr';
+import * as EnLocale from 'blockly/msg/en';
+import * as DeLocale from 'blockly/msg/de';
 import '../blockly/blocks.js';
 import '../blockly/generator.js';
 import { getToolbox } from '../blockly/toolbox.js';

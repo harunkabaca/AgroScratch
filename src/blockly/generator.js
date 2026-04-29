@@ -3,12 +3,24 @@
  * Blokları async JavaScript fonksiyonlarına çevirir.
  */
 import { javascriptGenerator, Order } from 'blockly/javascript';
+
+// ── Scratch-tarzı temel jeneratörler ──
 import './generators/control';
 import './generators/motion';
 import './generators/looks';
 import './generators/operators';
 import './generators/sensing';
 import './generators/sound';
+
+// ── FarmBot özel jeneratörler ──
+import './generators/farmbot_watering';
+import './generators/farmbot_seeding';
+import './generators/farmbot_weeding';
+import './generators/farmbot_soil';
+import './generators/farmbot_tools';
+import './generators/farmbot_camera';
+import './generators/farmbot_movement';
+import './generators/farmbot_sequences';
 
 /* ── Move ──────────────────────────────────────────── */
 javascriptGenerator.forBlock['farmbot_move'] = function (block) {
