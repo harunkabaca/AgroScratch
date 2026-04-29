@@ -129,6 +129,7 @@ export class SequentialExecutor {
         self.onLog({ type: 'cmd', text: `🌱 Tohum ekiliyor: ${seedType}` });
         self.onStepChange({ action: 'plantSeed', seedType });
         await self.api.wait(1500);
+        await self.api.plantSeed(seedType);
         _plantCount++;
         self.onLog({ type: 'ok', text: `✓ ${seedType} tohumu ekildi` });
       },
@@ -147,6 +148,7 @@ export class SequentialExecutor {
           if (self._aborted) throw new Error('ABORTED');
           await self.api.moveTo(state.x + i * spacing, state.y, -_seedDepth);
           self.onStepChange({ action: 'plantSeed', seedType: 'DEFAULT' });
+          await self.api.plantSeed('DEFAULT');
           await self.api.wait(500);
           await self.api.moveTo(state.x + i * spacing, state.y, 0);
           _plantCount++;
@@ -162,6 +164,7 @@ export class SequentialExecutor {
             if (self._aborted) throw new Error('ABORTED');
             await self.api.moveTo(state.x + c * spacing, state.y + r * spacing, -_seedDepth);
             self.onStepChange({ action: 'plantSeed', seedType: 'DEFAULT' });
+            await self.api.plantSeed('DEFAULT');
             await self.api.wait(400);
             await self.api.moveTo(state.x + c * spacing, state.y + r * spacing, 0);
             _plantCount++;
@@ -180,6 +183,7 @@ export class SequentialExecutor {
         if (self._aborted) throw new Error('ABORTED');
         self.onLog({ type: 'cmd', text: '🔼 Tohum bırakılıyor...' });
         self.onStepChange({ action: 'vacuumOff' });
+        await self.api.plantSeed('DEFAULT');
         await self.api.wait(500);
         _plantCount++;
         self.onLog({ type: 'ok', text: '✓ Tohum toprağa bırakıldı' });

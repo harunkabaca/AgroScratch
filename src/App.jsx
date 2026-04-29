@@ -16,14 +16,22 @@ export default function App() {
   const workspaceRef = useRef(null);
   const executorRef = useRef(null);
   const [logs, setLogs] = useState([]);
-  const [showCode, setShowCode] = useState(false);
+  const [activeTab, setActiveTab] = useState('console');
   const [generatedCode, setGeneratedCode] = useState('');
   
   const [lang, setLang] = useState('tr');
   const [theme, setTheme] = useState('dark');
   const t = translations[lang];
 
-  const { position, isWatering, isExecuting, setIsExecuting, api, resetPosition } = useDigitalTwin();
+  // Panel Boyutları (Yüzde olarak)
+  const [leftWidth, setLeftWidth] = useState(55);
+  const [topHeight, setTopHeight] = useState(70);
+
+  const { 
+    position, isWatering, isExecuting, setIsExecuting, 
+    isLedOn, ledColor, hasSeed, activeTool, plantedSeeds,
+    api, resetPosition 
+  } = useDigitalTwin();
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -37,6 +45,8 @@ export default function App() {
   /* ── Log ekle ────────────────────────────────────── */
   const addLog = useCallback((entry) => {
     setLogs((prev) => [...prev, entry]);
+    // Log eklenince konsol sekmesine odaklan
+    setActiveTab('console');
   }, []);
 
   /* ── PLAY ────────────────────────────────────────── */
@@ -46,8 +56,11 @@ export default function App() {
     setGeneratedCode(code);
     setLogs([]);
     setIsExecuting(true);
+    setActiveTab('console'); // Çalışırken konsolu göster
 
-    const executor = new SequentialExecutor(api, addLog, () => {});
+    const executor = new SequentialExecutor(api, addLog, (step) => {
+      console.log("Step change:", step);
+    });
     executorRef.current = executor;
 
     await executor.execute(code);
@@ -69,7 +82,7 @@ export default function App() {
     setLogs([]);
     resetPosition();
     setGeneratedCode('');
-    setShowCode(false);
+    setActiveTab('console');
   }, [handleStop, resetPosition]);
 
   /* ── Show Code ───────────────────────────────────── */
@@ -77,8 +90,54 @@ export default function App() {
     if (!workspaceRef.current) return;
     const code = generateCode(workspaceRef.current);
     setGeneratedCode(code);
-    setShowCode((v) => !v);
+    setActiveTab('code');
   }, []);
+
+  // ── Manuel Resizer Logic ────────────────────────
+  const isResizingHRef = useRef(false);
+  const isResizingVRef = useRef(false);
+
+  const startResizingH = (e) => {
+    isResizingHRef.current = true;
+    document.addEventListener('mousemove', handleMouseMoveH);
+    document.addEventListener('mouseup', stopResizingH);
+    document.body.style.cursor = 'col-resize';
+  };
+
+  const handleMouseMoveH = (e) => {
+    if (!isResizingHRef.current) return;
+    const percentage = (e.clientX / window.innerWidth) * 100;
+    if (percentage > 20 && percentage < 80) setLeftWidth(percentage);
+  };
+
+  const stopResizingH = () => {
+    isResizingHRef.current = false;
+    document.removeEventListener('mousemove', handleMouseMoveH);
+    document.removeEventListener('mouseup', stopResizingH);
+    document.body.style.cursor = 'default';
+  };
+
+  const startResizingV = (e) => {
+    isResizingVRef.current = true;
+    document.addEventListener('mousemove', handleMouseMoveV);
+    document.addEventListener('mouseup', stopResizingV);
+    document.body.style.cursor = 'row-resize';
+  };
+
+  const handleMouseMoveV = (e) => {
+    if (!isResizingVRef.current) return;
+    const offsetTop = 64;
+    const availableHeight = window.innerHeight - offsetTop - 24;
+    const percentage = ((e.clientY - offsetTop) / availableHeight) * 100;
+    if (percentage > 20 && percentage < 80) setTopHeight(percentage);
+  };
+
+  const stopResizingV = () => {
+    isResizingVRef.current = false;
+    document.removeEventListener('mousemove', handleMouseMoveV);
+    document.removeEventListener('mouseup', stopResizingV);
+    document.body.style.cursor = 'default';
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
@@ -99,123 +158,44 @@ export default function App() {
       {/* ── MAIN AREA ────────────────────────────────── */}
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Sol: Blockly Editor */}
-        <div
-          style={{
-            flex: '1 1 55%',
-            minWidth: 0,
-            borderRight: '1px solid var(--border)',
-            position: 'relative',
-          }}
-        >
-          <BlocklyEditor 
-            onWorkspaceReady={handleWorkspaceReady} 
-            lang={lang} 
-            theme={theme} 
-          />
-
-          {/* Code overlay */}
-          {showCode && (
-            <div
-              style={{
-                position: 'absolute', inset: 0,
-                background: 'rgba(10,15,26,0.95)',
-                backdropFilter: 'blur(8px)',
-                padding: 24,
-                overflowY: 'auto',
-                zIndex: 10,
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                <h3 style={{ color: 'var(--accent)', fontWeight: 800, fontSize: 14 }}>
-                  {t.generatedCode}
-                </h3>
-                <button
-                  onClick={() => setShowCode(false)}
-                  style={{
-                    background: 'var(--bg-secondary)', border: 'none', color: 'var(--text-secondary)',
-                    padding: '4px 12px', borderRadius: 8, cursor: 'pointer',
-                    fontWeight: 700, fontSize: 11,
-                  }}
-                >
-                  {t.close}
-                </button>
-              </div>
-              <pre
-                style={{
-                  color: '#e2e8f0',
-                  fontSize: 12,
-                  lineHeight: 1.7,
-                  fontFamily: "'Fira Code', monospace",
-                  whiteSpace: 'pre-wrap',
-                  background: '#0f172a',
-                  padding: 16,
-                  borderRadius: 12,
-                  border: '1px solid #1e293b',
-                }}
-              >
-                {generatedCode || t.noBlocks}
-              </pre>
-            </div>
-          )}
+        <div style={{ width: `${leftWidth}%`, minWidth: 200, position: 'relative' }}>
+          <BlocklyEditor onWorkspaceReady={handleWorkspaceReady} lang={lang} theme={theme} t={t} />
         </div>
 
-        {/* Sağ: Digital Twin + Console */}
-        <div
-          style={{
-            flex: '1 1 45%',
-            minWidth: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            background: 'var(--bg-primary)',
-          }}
-        >
-          {/* 3D Sahne */}
-          <div style={{ flex: '1 1 70%', minHeight: 0, padding: 8 }}>
-            <DigitalTwin position={position} isWatering={isWatering} theme={theme} />
-          </div>
+        {/* Resizer Handle (Yatay) */}
+        <div onMouseDown={startResizingH} className="resize-handle-horizontal" style={{ width: 6, margin: 0, background: 'var(--border)' }} />
 
-          {/* Konsol */}
-          <div
-            style={{
-              flex: '0 0 30%',
-              padding: '0 8px 8px 8px',
-              minHeight: 0,
-            }}
-          >
-            <ExecutionPanel logs={logs} t={t} />
+        {/* Sağ: Digital Twin + Console */}
+        <div style={{ flex: 1, minWidth: 200, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ height: `${topHeight}%`, minHeight: 100, padding: 8 }}>
+            <DigitalTwin 
+              position={position} isWatering={isWatering} isLedOn={isLedOn} ledColor={ledColor}
+              hasSeed={hasSeed} activeTool={activeTool} plantedSeeds={plantedSeeds} theme={theme} t={t}
+            />
+          </div>
+          
+          <div onMouseDown={startResizingV} className="resize-handle-vertical" style={{ height: 6, margin: 0, background: 'var(--border)', cursor: 'row-resize' }} />
+          
+          <div style={{ flex: 1, padding: '0 8px 8px 8px', minHeight: 50 }}>
+            <ExecutionPanel 
+              logs={logs} 
+              t={t} 
+              generatedCode={generatedCode} 
+              activeTab={activeTab} 
+              onTabChange={setActiveTab} 
+            />
           </div>
         </div>
       </div>
 
       {/* ── STATUS BAR ───────────────────────────────── */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '6px 20px',
-          background: 'var(--bg-secondary)',
-          borderTop: '1px solid var(--border)',
-          fontSize: 10,
-          fontWeight: 700,
-          color: 'var(--text-secondary)',
-        }}
-      >
-        <span>
-          📍 {t.position} — X:{Math.round(position.x)}  Y:{Math.round(position.y)}  Z:{Math.round(position.z)}
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 20px', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)', fontSize: 10, fontWeight: 700, color: 'var(--text-secondary)' }}>
+        <span>📍 {t.position} — X:{Math.round(position.x)}  Y:{Math.round(position.y)}  Z:{Math.round(position.z)}</span>
         <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span
-            style={{
-              width: 6, height: 6, borderRadius: '50%',
-              background: isExecuting ? '#22c55e' : isWatering ? '#38bdf8' : '#475569',
-              boxShadow: isExecuting ? '0 0 8px #22c55e' : 'none',
-            }}
-          />
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: isExecuting ? '#22c55e' : isWatering ? '#38bdf8' : '#475569', boxShadow: isExecuting ? '0 0 8px #22c55e' : 'none' }} />
           {isExecuting ? t.executing : isWatering ? t.watering : t.status}
         </span>
       </div>
     </div>
   );
 }
-

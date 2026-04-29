@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import * as Blockly from 'blockly';
 import * as TrLocale from 'blockly/msg/tr';
 import * as EnLocale from 'blockly/msg/en';
@@ -32,38 +32,45 @@ const getTheme = (mode) => Blockly.Theme.defineTheme('agro_' + mode, {
   },
 });
 
-export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
+export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
   const containerRef = useRef(null);
   const workspaceRef = useRef(null);
   const [marquee, setMarquee] = useState(null);
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
   const selectionSet = useRef(new Set());
 
-  // Dil değişince Blockly mesajlarını güncelle
+  // ── Shift Takibi ────────────────────────────────
+  useEffect(() => {
+    const handleKey = (e) => setIsShiftPressed(e.shiftKey);
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('keyup', handleKey);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('keyup', handleKey);
+    };
+  }, []);
+
+  // ── Dil ─────────────────────────────────────────
   useEffect(() => {
     const locale = LOCALES[lang] || TrLocale;
     Blockly.setLocale(locale);
-
-    // Bizim çevirileri Blockly.Msg içine enjekte et
     const t = translations[lang];
     Object.keys(t).forEach(key => {
-      if (key.startsWith('BLOCK_')) {
-        Blockly.Msg[key] = t[key];
-      }
+      if (key.startsWith('BLOCK_')) Blockly.Msg[key] = t[key];
     });
-
-    // Toolbox'ı yeniden yükle
     if (workspaceRef.current) {
       workspaceRef.current.updateToolbox(getToolbox(lang));
     }
   }, [lang]);
 
-  // Tema değişince Blockly temasını güncelle
+  // ── Tema ────────────────────────────────────────
   useEffect(() => {
     if (workspaceRef.current) {
       workspaceRef.current.setTheme(getTheme(theme));
     }
   }, [theme]);
 
+  // ── Injection ───────────────────────────────────
   useEffect(() => {
     if (!containerRef.current || workspaceRef.current) return;
 
@@ -97,16 +104,17 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
     };
   }, []);
 
-  const clearSelection = () => {
+  const clearSelection = useCallback(() => {
     selectionSet.current.forEach(id => {
       const block = workspaceRef.current?.getBlockById(id);
       if (block?.getSvgRoot()) block.getSvgRoot().classList.remove('block-selected-glow');
     });
     selectionSet.current.clear();
-  };
+  }, []);
 
+  // ── Marquee Handlers ───────────────────────────
   const handleMouseDown = (e) => {
-    if (!e.shiftKey || !workspaceRef.current) return;
+    if (!isShiftPressed) return;
     const rect = containerRef.current.getBoundingClientRect();
     setMarquee({
       startX: e.clientX - rect.left,
@@ -114,7 +122,6 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
       currentX: e.clientX - rect.left,
       currentY: e.clientY - rect.top,
     });
-    e.preventDefault();
   };
 
   const handleMouseMove = (e) => {
@@ -130,6 +137,8 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
   const handleMouseUp = () => {
     if (!marquee) return;
     const ws = workspaceRef.current;
+    if (!ws) return;
+
     const x1 = Math.min(marquee.startX, marquee.currentX);
     const y1 = Math.min(marquee.startY, marquee.currentY);
     const x2 = Math.max(marquee.startX, marquee.currentX);
@@ -141,6 +150,8 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
       const bBox = block.getSvgRoot().getBoundingClientRect();
       const bx = bBox.left - containerRect.left;
       const by = bBox.top - containerRect.top;
+      
+      // Bloğun merkezi veya tamamı içindeyse seç
       if (bx >= x1 && bx + bBox.width <= x2 && by >= y1 && by + bBox.height <= y2) {
         selectionSet.current.add(block.id);
         block.getSvgRoot().classList.add('block-selected-glow');
@@ -150,26 +161,58 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme }) {
   };
 
   return (
-    <div
-      ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={() => setMarquee(null)}
-      style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}
-    >
-      {marquee && (
+    <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+      {/* Blockly Container */}
+      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+
+      {/* Marquee Overlay (Sadece Shift basılıyken aktif) */}
+      <div
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={() => setMarquee(null)}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: isShiftPressed ? 50 : -1,
+          cursor: isShiftPressed ? 'crosshair' : 'default',
+          pointerEvents: isShiftPressed ? 'auto' : 'none',
+          background: isShiftPressed && !marquee ? 'rgba(34, 197, 94, 0.05)' : 'transparent',
+        }}
+      >
+        {marquee && (
+          <div style={{
+            position: 'absolute',
+            left: Math.min(marquee.startX, marquee.currentX),
+            top: Math.min(marquee.startY, marquee.currentY),
+            width: Math.abs(marquee.currentX - marquee.startX),
+            height: Math.abs(marquee.currentY - marquee.startY),
+            border: '2px dashed #22c55e',
+            background: 'rgba(34, 197, 94, 0.15)',
+            pointerEvents: 'none',
+          }} />
+        )}
+      </div>
+
+      {/* Shift Bilgi Label */}
+      {isShiftPressed && (
         <div style={{
           position: 'absolute',
-          left: Math.min(marquee.startX, marquee.currentX),
-          top: Math.min(marquee.startY, marquee.currentY),
-          width: Math.abs(marquee.currentX - marquee.startX),
-          height: Math.abs(marquee.currentY - marquee.startY),
-          border: '2px dashed #22c55e',
-          background: 'rgba(34, 197, 94, 0.1)',
+          bottom: 16,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: '#22c55e',
+          color: 'white',
+          padding: '4px 12px',
+          borderRadius: 20,
+          fontSize: 10,
+          fontWeight: 800,
           pointerEvents: 'none',
-          zIndex: 1000,
-        }} />
+          zIndex: 60,
+          boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
+        }}>
+          {t.multiSelectMode}
+        </div>
       )}
     </div>
   );

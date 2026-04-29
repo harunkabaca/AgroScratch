@@ -170,11 +170,37 @@ export const getToolbox = (lang) => {
         colour: '#4c97ff',
         cssConfig: { container: 'scratch-cat-motion' },
         contents: [
-          { kind: 'block', type: 'motion_gotoxyz' },
+          { 
+            kind: 'block', 
+            type: 'motion_gotoxyz',
+            inputs: {
+              X: { shadow: { type: 'math_number', fields: { NUM: 100 } } },
+              Y: { shadow: { type: 'math_number', fields: { NUM: 100 } } },
+              Z: { shadow: { type: 'math_number', fields: { NUM: 0 } } },
+            }
+          },
           { kind: 'block', type: 'motion_gohome' },
-          { kind: 'block', type: 'motion_changex' },
-          { kind: 'block', type: 'motion_changey' },
-          { kind: 'block', type: 'motion_changez' },
+          { 
+            kind: 'block', 
+            type: 'motion_changex',
+            inputs: {
+              DX: { shadow: { type: 'math_number', fields: { NUM: 10 } } },
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'motion_changey',
+            inputs: {
+              DY: { shadow: { type: 'math_number', fields: { NUM: 10 } } },
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'motion_changez',
+            inputs: {
+              DZ: { shadow: { type: 'math_number', fields: { NUM: 10 } } },
+            }
+          },
         ],
       },
       {
@@ -213,11 +239,23 @@ export const getToolbox = (lang) => {
         colour: '#ffab19',
         cssConfig: { container: 'scratch-cat-control' },
         contents: [
-          { kind: 'block', type: 'control_wait' },
-          { kind: 'block', type: 'control_repeat' },
+          { 
+            kind: 'block', 
+            type: 'control_wait',
+            inputs: {
+              DURATION: { shadow: { type: 'math_number', fields: { NUM: 1 } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'control_repeat',
+            inputs: {
+              TIMES: { shadow: { type: 'math_number', fields: { NUM: 10 } } }
+            }
+          },
           { kind: 'block', type: 'control_forever' },
           { kind: 'block', type: 'control_if' },
-          { kind: 'block', type: 'control_ifelse' },
+          { kind: 'block', type: 'control_if_else' },
         ],
       },
       {
@@ -239,14 +277,70 @@ export const getToolbox = (lang) => {
         colour: '#59c059',
         cssConfig: { container: 'scratch-cat-operators' },
         contents: [
-          { kind: 'block', type: 'operator_add' },
-          { kind: 'block', type: 'operator_subtract' },
-          { kind: 'block', type: 'operator_multiply' },
-          { kind: 'block', type: 'operator_divide' },
-          { kind: 'block', type: 'operator_random' },
-          { kind: 'block', type: 'operator_gt' },
-          { kind: 'block', type: 'operator_lt' },
-          { kind: 'block', type: 'operator_equals' },
+          { 
+            kind: 'block', 
+            type: 'operator_add',
+            inputs: {
+              NUM1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              NUM2: { shadow: { type: 'math_number', fields: { NUM: '' } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_subtract',
+            inputs: {
+              NUM1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              NUM2: { shadow: { type: 'math_number', fields: { NUM: '' } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_multiply',
+            inputs: {
+              NUM1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              NUM2: { shadow: { type: 'math_number', fields: { NUM: '' } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_divide',
+            inputs: {
+              NUM1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              NUM2: { shadow: { type: 'math_number', fields: { NUM: '' } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_random',
+            inputs: {
+              FROM: { shadow: { type: 'math_number', fields: { NUM: 1 } } },
+              TO: { shadow: { type: 'math_number', fields: { NUM: 10 } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_gt',
+            inputs: {
+              VAL1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              VAL2: { shadow: { type: 'math_number', fields: { NUM: 50 } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_lt',
+            inputs: {
+              VAL1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              VAL2: { shadow: { type: 'math_number', fields: { NUM: 50 } } }
+            }
+          },
+          { 
+            kind: 'block', 
+            type: 'operator_equals',
+            inputs: {
+              VAL1: { shadow: { type: 'math_number', fields: { NUM: '' } } },
+              VAL2: { shadow: { type: 'math_number', fields: { NUM: 50 } } }
+            }
+          },
           { kind: 'block', type: 'operator_and' },
           { kind: 'block', type: 'operator_or' },
           { kind: 'block', type: 'operator_not' },

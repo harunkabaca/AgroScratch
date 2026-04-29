@@ -16,18 +16,24 @@ export function useDigitalTwin() {
   const latestPosition = useRef({ x: 0, y: 0, z: 0 });
   const abortRef = useRef(false);
 
+  // Yeni animasyon state'leri
+  const [isLedOn, setIsLedOn] = useState(false);
+  const [ledColor, setLedColor] = useState('WHITE');
+  const [hasSeed, setHasSeed] = useState(false);
+  const [activeTool, setActiveTool] = useState('NONE');
+  const [plantedSeeds, setPlantedSeeds] = useState([]); // Ekilen tohumlar
+
   const api = {
     moveTo: (x, y, z) => {
       return new Promise((resolve) => {
         setTargetPosition({ x, y, z });
-        // Animasyonlu hareket — MOVE_DURATION sonra tamamlanır
         const start = { ...latestPosition.current };
         const startTime = Date.now();
 
         const animate = () => {
           const elapsed = Date.now() - startTime;
           const t = Math.min(elapsed / MOVE_DURATION, 1);
-          const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
+          const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
           const newPos = {
             x: start.x + (x - start.x) * eased,
@@ -64,12 +70,47 @@ export function useDigitalTwin() {
       setIsWatering(false);
     },
 
+    ledOn: async (color) => {
+      setIsLedOn(true);
+      setLedColor(color || 'WHITE');
+    },
+
+    ledOff: async () => {
+      setIsLedOn(false);
+    },
+
+    vacuumOn: async () => {
+      setHasSeed(true);
+    },
+
+    vacuumOff: async () => {
+      setHasSeed(false);
+    },
+
+    mountTool: async (tool) => {
+      setActiveTool(tool);
+    },
+
+    dismountTool: async () => {
+      setActiveTool('NONE');
+    },
+
+    plantSeed: async (seedType) => {
+      const pos = { ...latestPosition.current };
+      setPlantedSeeds(prev => [...prev, { 
+        x: pos.x, 
+        y: pos.y, 
+        z: 0, 
+        type: seedType,
+        id: Date.now() + Math.random() 
+      }]);
+    },
+
     wait: (ms) => {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
 
     readSensor: async (sensorType) => {
-      // Mock: random değer 10-50 arası
       const val = Math.floor(Math.random() * 40) + 10;
       setSensorValue(val);
       return val;
@@ -84,15 +125,24 @@ export function useDigitalTwin() {
     const origin = { x: 0, y: 0, z: 0 };
     setPosition(origin);
     setTargetPosition(origin);
-    latestPosition.current = origin;
     setIsWatering(false);
     setIsExecuting(false);
+    setIsLedOn(false);
+    setHasSeed(false);
+    setActiveTool('NONE');
+    setPlantedSeeds([]);
+    latestPosition.current = origin;
   }, []);
 
   return {
     position,
     targetPosition,
     isWatering,
+    isLedOn,
+    ledColor,
+    hasSeed,
+    activeTool,
+    plantedSeeds,
     isExecuting,
     setIsExecuting,
     sensorValue,

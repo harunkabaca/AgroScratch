@@ -1,8 +1,8 @@
 /**
- * AgroScratch — Çalıştırma Paneli (Konsol)
+ * AgroScratch — Çalıştırma Paneli (Sekmeli: Konsol & Kod)
  */
-import { useRef, useEffect } from 'react';
-import { Terminal } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { Terminal, Code } from 'lucide-react';
 
 const TYPE_COLORS = {
   info: '#94a3b8',
@@ -13,14 +13,14 @@ const TYPE_COLORS = {
   error: '#ef4444',
 };
 
-export default function ExecutionPanel({ logs, t }) {
+export default function ExecutionPanel({ logs, t, generatedCode, activeTab, onTabChange }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && activeTab === 'console') {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs]);
+  }, [logs, activeTab]);
 
   return (
     <div
@@ -35,20 +35,57 @@ export default function ExecutionPanel({ logs, t }) {
         border: '1px solid var(--border)',
       }}
     >
+      {/* ── TABS ───────────────────────────────────── */}
       <div
         style={{
-          padding: '10px 16px',
+          padding: '4px 8px',
           background: 'rgba(0,0,0,0.2)',
           borderBottom: '1px solid var(--border)',
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
+          gap: 4,
         }}
       >
-        <Terminal size={14} color="var(--accent)" />
-        <h2 style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          {t.console}
-        </h2>
+        <button
+          onClick={() => onTabChange('console')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '6px 12px',
+            border: 'none',
+            background: activeTab === 'console' ? 'rgba(34, 197, 94, 0.15)' : 'transparent',
+            color: activeTab === 'console' ? 'var(--accent)' : 'var(--text-secondary)',
+            borderRadius: 8,
+            cursor: 'pointer',
+            fontSize: 11,
+            fontWeight: 800,
+            transition: 'all 0.2s'
+          }}
+        >
+          <Terminal size={14} />
+          {t.tabConsole}
+        </button>
+        <button
+          onClick={() => onTabChange('code')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '6px 12px',
+            border: 'none',
+            background: activeTab === 'code' ? 'rgba(34, 197, 94, 0.15)' : 'transparent',
+            color: activeTab === 'code' ? 'var(--accent)' : 'var(--text-secondary)',
+            borderRadius: 8,
+            cursor: 'pointer',
+            fontSize: 11,
+            fontWeight: 800,
+            transition: 'all 0.2s'
+          }}
+        >
+          <Code size={14} />
+          {t.tabCode}
+        </button>
       </div>
 
       <div
@@ -62,22 +99,37 @@ export default function ExecutionPanel({ logs, t }) {
           lineHeight: '1.8',
         }}
       >
-        {logs.length === 0 && (
-          <span style={{ color: 'var(--text-secondary)' }}>
-            {t.noBlocks}
-          </span>
-        )}
-        {logs.map((log, i) => (
-          <div
-            key={i}
-            style={{ color: TYPE_COLORS[log.type] || 'var(--text-secondary)' }}
+        {activeTab === 'console' ? (
+          <>
+            {logs.length === 0 && (
+              <span style={{ color: 'var(--text-secondary)' }}>
+                {t.noLogs}
+              </span>
+            )}
+            {logs.map((log, i) => (
+              <div
+                key={i}
+                style={{ color: TYPE_COLORS[log.type] || 'var(--text-secondary)' }}
+              >
+                <span style={{ color: 'var(--text-secondary)', marginRight: 8, opacity: 0.5 }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {log.text}
+              </div>
+            ))}
+          </>
+        ) : (
+          <pre
+            style={{
+              margin: 0,
+              whiteSpace: 'pre-wrap',
+              color: '#e2e8f0',
+              lineHeight: '1.6',
+            }}
           >
-            <span style={{ color: 'var(--text-secondary)', marginRight: 8, opacity: 0.5 }}>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            {log.text}
-          </div>
-        ))}
+            {generatedCode || t.noCode}
+          </pre>
+        )}
       </div>
     </div>
   );

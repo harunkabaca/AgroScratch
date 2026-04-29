@@ -43,8 +43,8 @@ body {
 #root { height: 100vh; }
 
 /* ── Blockly Overrides ─────────────────────────────── */
-.blocklySvg { background: #0f172a !important; }
-.blocklyMainBackground { fill: #0f172a !important; stroke: none !important; }
+.blocklySvg { background: var(--bg-primary) !important; transition: background 0.3s; }
+.blocklyMainBackground { fill: var(--bg-primary) !important; stroke: none !important; transition: fill 0.3s; }
 
 /* Toolbox ve Flyout kilitlenmelerini önle */
 .blocklyToolboxDiv { 
@@ -54,7 +54,7 @@ body {
 }
 
 .blocklyFlyoutBackground { 
-  fill: #1e293b !important; 
+  fill: var(--bg-secondary) !important; 
   fill-opacity: 0.95 !important; 
 }
 
@@ -73,6 +73,11 @@ body {
 .blocklyText { fill: #fff; font-family: 'Inter', sans-serif !important; font-weight: 600 !important; }
 .blocklyEditableText > rect { fill: #fff !important; stroke: #94a3b8 !important; }
 .blocklyEditableText > text { fill: #0f172a !important; }
+
+.blocklyGrid line {
+  stroke: var(--border) !important;
+  stroke-opacity: 0.5;
+}
 
 /* ── Glassmorphism ─────────────────────────────────── */
 .glass {
@@ -164,6 +169,40 @@ body {
 /* Çoklu Seçim Efekti */
 .block-selected-glow {
   filter: drop-shadow(0 0 8px #22c55e) !important;
+  stroke: #22c55e !important;
+  stroke-width: 3px !important;
+}
+
+/* ── Resizable Panels (Manual) ────────────────────── */
+.resize-handle-horizontal {
+  width: 6px !important;
+  background: var(--border);
+  cursor: col-resize;
+  transition: background 0.2s;
+  z-index: 50;
+}
+.resize-handle-horizontal:hover {
+  background: var(--accent) !important;
+}
+
+.resize-handle-vertical {
+  height: 6px !important;
+  background: var(--border);
+  cursor: row-resize;
+  transition: background 0.2s;
+  z-index: 50;
+}
+.resize-handle-vertical:hover {
+  background: var(--accent) !important;
+}
+
+/* ── Selection Marquee & Glow ──────────────────────── */
+.block-selected-glow {
+  filter: drop-shadow(0 0 10px #22c55e) !important;
+  transition: filter 0.2s;
+}
+
+.block-selected-glow > .blocklyPath {
   stroke: #22c55e !important;
   stroke-width: 3px !important;
 }
