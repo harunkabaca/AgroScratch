@@ -57,6 +57,25 @@ javascriptGenerator.forBlock['farmbot_if_sensor'] = function (block, generator) 
 };
 
 /**
+ * Her blok için kod üretilmeden önce çalışır.
+ * Sadece statement bloklarına (akışa giren bloklar) highlight enjekte eder.
+ * Değer/expression blokları (sayı, metin vb.) atlanır.
+ */
+javascriptGenerator.scrub_ = function(block, code, opt_thisOnly) {
+  const nextBlock = block.getNextBlock();
+  const nextCode = opt_thisOnly ? '' : javascriptGenerator.blockToCode(nextBlock);
+
+  // Değer döndüren bloklar (input_value) için highlight enjekte etme
+  // Bunlar expression olduğundan await statement'ı hatalı kod üretir
+  if (block.outputConnection) {
+    return code + nextCode;
+  }
+
+  // Statement bloklarına highlight ekle
+  return `await robot.highlightBlock("${block.id}");\n` + code + nextCode;
+};
+
+/**
  * Workspace'ten çalıştırılabilir async kod üretir.
  */
 export function generateCode(workspace) {

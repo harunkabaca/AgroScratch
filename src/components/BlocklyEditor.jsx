@@ -7,6 +7,16 @@ import '../blockly/blocks.js';
 import '../blockly/generator.js';
 import { getToolbox } from '../blockly/toolbox.js';
 import { translations } from '../i18n/translations';
+import { registerContinuousToolbox } from '@blockly/continuous-toolbox';
+
+// Plugin kaydı (HMR uyumlu: CSS enjeksiyonu hatası almamak için try-catch)
+try {
+  registerContinuousToolbox();
+} catch (e) {
+  if (!e.message.includes('already injected')) {
+    console.error('Continuous Toolbox registration error:', e);
+  }
+}
 
 const LOCALES = { tr: TrLocale, en: EnLocale, de: DeLocale };
 
@@ -83,6 +93,11 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
       trashcan: true,
       move: { scrollbars: true, drag: true, wheel: true },
       sounds: false,
+      plugins: {
+        toolbox: 'ContinuousToolbox',
+        flyoutsVerticalToolbox: 'ContinuousFlyout',
+        metricsManager: 'ContinuousMetrics',
+      }
     });
 
     workspaceRef.current = ws;

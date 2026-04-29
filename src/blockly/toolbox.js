@@ -220,7 +220,8 @@ export const getToolbox = (lang) => {
         colour: '#cf63cf',
         cssConfig: { container: 'scratch-cat-sound' },
         contents: [
-          { kind: 'block', type: 'sound_play' },
+          { kind: 'block', type: 'sound_start' },
+          { kind: 'block', type: 'sound_play_until_done' },
         ],
       },
       { kind: 'sep', gap: 32 },

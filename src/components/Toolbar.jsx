@@ -2,11 +2,14 @@
  * AgroScratch — Araç Çubuğu
  * Çalıştır / Durdur / Sıfırla / Kodu Gör kontrolleri — Türkçe
  */
-import { Play, Square, RotateCcw, Code, Globe, Sun, Moon } from 'lucide-react';
+import { Play, Square, RotateCcw, Code, Globe, Sun, Moon, Maximize2, Monitor, Pause } from 'lucide-react';
 
 export default function Toolbar({ 
   onPlay, onStop, onReset, onShowCode, isExecuting,
-  lang, setLang, theme, setTheme, t
+  lang, setLang, theme, setTheme, t,
+  bigScreenOnRun, setBigScreenOnRun,
+  isInspectMode, setIsInspectMode,
+  isPaused, setIsPaused
 }) {
   return (
     <header
@@ -86,6 +89,38 @@ export default function Toolbar({
 
         <div style={{ width: 1, height: 24, background: 'var(--border)', margin: '0 8px' }} />
 
+        {/* Big Screen on Run Toggle */}
+        <button
+          onClick={() => setBigScreenOnRun(!bigScreenOnRun)}
+          title={t.bigScreenOnRun}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border)',
+            background: bigScreenOnRun ? 'var(--accent)' : 'var(--bg-secondary)', 
+            color: bigScreenOnRun ? '#fff' : 'var(--text-secondary)', cursor: 'pointer',
+            fontSize: 10, fontWeight: 800, transition: 'all 0.2s',
+          }}
+        >
+          <Monitor size={14} /> {t.bigScreenOnRun}
+        </button>
+
+        {/* Inspect Mode Toggle */}
+        <button
+          onClick={() => setIsInspectMode(!isInspectMode)}
+          title={t.inspectMode}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border)',
+            background: isInspectMode ? '#9333ea' : 'var(--bg-secondary)', 
+            color: isInspectMode ? '#fff' : 'var(--text-secondary)', cursor: 'pointer',
+            fontSize: 10, fontWeight: 800, transition: 'all 0.2s',
+          }}
+        >
+          <Maximize2 size={14} /> {t.inspectMode}
+        </button>
+
+        <div style={{ width: 1, height: 24, background: 'var(--border)', margin: '0 8px' }} />
+
         <button
           onClick={onShowCode}
           title={t.showCode}
@@ -113,19 +148,34 @@ export default function Toolbar({
         </button>
 
         {isExecuting ? (
-          <button
-            onClick={onStop}
-            title={t.stop}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 6,
-              padding: '8px 20px', borderRadius: 12, border: 'none',
-              background: '#ef4444', color: '#fff', cursor: 'pointer',
-              fontSize: 12, fontWeight: 800, transition: 'all 0.2s',
-              boxShadow: '0 0 20px rgba(239,68,68,0.4)',
-            }}
-          >
-            <Square size={16} /> {t.stop}
-          </button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              onClick={() => setIsPaused(!isPaused)}
+              title={isPaused ? t.resume : t.pause}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '8px 16px', borderRadius: 12, border: '1px solid var(--border)',
+                background: isPaused ? '#22c55e' : 'var(--bg-secondary)', 
+                color: isPaused ? '#fff' : 'var(--text-secondary)', cursor: 'pointer',
+                fontSize: 12, fontWeight: 800, transition: 'all 0.2s',
+              }}
+            >
+              {isPaused ? <Play size={16} /> : <Pause size={16} />} {isPaused ? t.resume : t.pause}
+            </button>
+            <button
+              onClick={onStop}
+              title={t.stop}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '8px 20px', borderRadius: 12, border: 'none',
+                background: '#ef4444', color: '#fff', cursor: 'pointer',
+                fontSize: 12, fontWeight: 800, transition: 'all 0.2s',
+                boxShadow: '0 0 20px rgba(239,68,68,0.4)',
+              }}
+            >
+              <Square size={16} /> {t.stop}
+            </button>
+          </div>
         ) : (
           <button
             onClick={onPlay}

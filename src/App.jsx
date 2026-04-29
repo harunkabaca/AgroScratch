@@ -26,6 +26,11 @@ export default function App() {
   // Panel Boyutları (Yüzde olarak)
   const [leftWidth, setLeftWidth] = useState(55);
   const [topHeight, setTopHeight] = useState(70);
+  
+  // Yeni Modlar
+  const [bigScreenOnRun, setBigScreenOnRun] = useState(false);
+  const [isInspectMode, setIsInspectMode] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const { 
     position, isWatering, isExecuting, setIsExecuting, 
@@ -56,10 +61,19 @@ export default function App() {
     setGeneratedCode(code);
     setLogs([]);
     setIsExecuting(true);
+    setIsPaused(false);
     setActiveTab('console'); // Çalışırken konsolu göster
 
+    // Big Screen on Run aktifse ekranı büyüt
+    if (bigScreenOnRun) {
+      setLeftWidth(0); // Blockly'yi gizle
+      setTopHeight(100); // Digital Twin'i tam ekran yap
+    }
+
     const executor = new SequentialExecutor(api, addLog, (step) => {
-      console.log("Step change:", step);
+      if (step.action === 'highlight' && workspaceRef.current) {
+        workspaceRef.current.highlightBlock(step.blockId);
+      }
     });
     executorRef.current = executor;
 
@@ -74,7 +88,15 @@ export default function App() {
       executorRef.current.abort();
     }
     setIsExecuting(false);
-  }, [setIsExecuting]);
+    setIsPaused(false);
+    // Vurguları temizle
+    workspaceRef.current?.highlightBlock(null);
+    // Layout'u eski haline getir (opsiyonel ama kullanıcı dostu)
+    if (bigScreenOnRun) {
+      setLeftWidth(55);
+      setTopHeight(70);
+    }
+  }, [setIsExecuting, bigScreenOnRun]);
 
   /* ── RESET ───────────────────────────────────────── */
   const handleReset = useCallback(() => {
@@ -83,7 +105,22 @@ export default function App() {
     resetPosition();
     setGeneratedCode('');
     setActiveTab('console');
+    workspaceRef.current?.highlightBlock(null);
   }, [handleStop, resetPosition]);
+
+  const handlePause = useCallback(() => {
+    if (executorRef.current) {
+      executorRef.current.pause();
+      setIsPaused(true);
+    }
+  }, []);
+
+  const handleResume = useCallback(() => {
+    if (executorRef.current) {
+      executorRef.current.resume();
+      setIsPaused(false);
+    }
+  }, []);
 
   /* ── Show Code ───────────────────────────────────── */
   const handleShowCode = useCallback(() => {
@@ -153,38 +190,83 @@ export default function App() {
         theme={theme}
         setTheme={setTheme}
         t={t}
+        bigScreenOnRun={bigScreenOnRun}
+        setBigScreenOnRun={setBigScreenOnRun}
+        isInspectMode={isInspectMode}
+        setIsInspectMode={setIsInspectMode}
+        isPaused={isPaused}
+        setIsPaused={(val) => {
+          if (val) handlePause(); else handleResume();
+        }}
       />
 
       {/* ── MAIN AREA ────────────────────────────────── */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* Sol: Blockly Editor */}
-        <div style={{ width: `${leftWidth}%`, minWidth: 200, position: 'relative' }}>
-          <BlocklyEditor onWorkspaceReady={handleWorkspaceReady} lang={lang} theme={theme} t={t} />
-        </div>
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
+        {/* Sol: Blockly Editor (İnceleme modunda veya Big Screen on Run çalışırken gizli) */}
+        {!isInspectMode && leftWidth > 0 && (
+          <div style={{ width: `${leftWidth}%`, minWidth: 200, position: 'relative' }}>
+            <BlocklyEditor onWorkspaceReady={handleWorkspaceReady} lang={lang} theme={theme} t={t} />
+          </div>
+        )}
 
-        {/* Resizer Handle (Yatay) */}
-        <div onMouseDown={startResizingH} className="resize-handle-horizontal" style={{ width: 6, margin: 0, background: 'var(--border)' }} />
+        {/* Resizer Handle (Yatay) - Sadece normal modda */}
+        {!isInspectMode && leftWidth > 0 && !isExecuting && (
+          <div onMouseDown={startResizingH} className="resize-handle-horizontal" style={{ width: 6, margin: 0, background: 'var(--border)' }} />
+        )}
 
-        {/* Sağ: Digital Twin + Console */}
-        <div style={{ flex: 1, minWidth: 200, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ height: `${topHeight}%`, minHeight: 100, padding: 8 }}>
+        <div style={{ 
+          flex: 1, 
+          minWidth: 200, 
+          display: 'flex', 
+          flexDirection: 'column',
+          position: isInspectMode ? 'absolute' : 'relative',
+          inset: isInspectMode ? 0 : 'auto',
+          zIndex: isInspectMode ? 1000 : 1,
+          background: 'var(--bg-primary)'
+        }}>
+          {/* Digital Twin */}
+          <div style={{ 
+            height: isInspectMode ? '100%' : `${topHeight}%`, 
+            minHeight: 100, 
+            padding: isInspectMode ? 0 : 8,
+            flex: isInspectMode ? 1 : 'none'
+          }}>
             <DigitalTwin 
               position={position} isWatering={isWatering} isLedOn={isLedOn} ledColor={ledColor}
               hasSeed={hasSeed} activeTool={activeTool} plantedSeeds={plantedSeeds} theme={theme} t={t}
             />
+            {isInspectMode && (
+              <button 
+                onClick={() => setIsInspectMode(false)}
+                style={{
+                  position: 'absolute', top: 20, left: 20, zIndex: 1001,
+                  background: '#ef4444', color: 'white', border: 'none',
+                  padding: '10px 20px', borderRadius: 12, fontWeight: 800, cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                }}
+              >
+                ✕ {t.close}
+              </button>
+            )}
           </div>
           
-          <div onMouseDown={startResizingV} className="resize-handle-vertical" style={{ height: 6, margin: 0, background: 'var(--border)', cursor: 'row-resize' }} />
+          {/* Resizer Handle (Dikey) - Sadece normal modda */}
+          {!isInspectMode && topHeight < 100 && (
+            <div onMouseDown={startResizingV} className="resize-handle-vertical" style={{ height: 6, margin: 0, background: 'var(--border)', cursor: 'row-resize' }} />
+          )}
           
-          <div style={{ flex: 1, padding: '0 8px 8px 8px', minHeight: 50 }}>
-            <ExecutionPanel 
-              logs={logs} 
-              t={t} 
-              generatedCode={generatedCode} 
-              activeTab={activeTab} 
-              onTabChange={setActiveTab} 
-            />
-          </div>
+          {/* Console */}
+          {!isInspectMode && topHeight < 100 && (
+            <div style={{ flex: 1, padding: '0 8px 8px 8px', minHeight: 50 }}>
+              <ExecutionPanel 
+                logs={logs} 
+                t={t} 
+                generatedCode={generatedCode} 
+                activeTab={activeTab} 
+                onTabChange={setActiveTab} 
+              />
+            </div>
+          )}
         </div>
       </div>
 

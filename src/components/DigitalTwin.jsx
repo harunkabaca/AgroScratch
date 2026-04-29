@@ -11,7 +11,7 @@ import * as THREE from 'three';
 const SCALE = 0.01;
 const BED_W = 30;  // 3000mm
 const BED_D = 15;  // 1500mm
-const BED_H = 1.0; // Yatağı yükselttik (1000mm eşdeğeri görsel ölçek)
+const BED_H = 2.5; // Yatağı daha da yükselttik
 
 /* ── Bahçe Yatağı (Raised Bed) ───────────────────────── */
 function RaisedBed({ theme }) {
@@ -37,7 +37,7 @@ function RaisedBed({ theme }) {
         sectionSize={5}
         sectionThickness={1}
         sectionColor={isDark ? '#666' : '#bbb'}
-        fadeDistance={40}
+        fadeDistance={500} // Sisi kaldırdık (mesafeyi büyüttük)
         infiniteGrid={false}
       />
 
