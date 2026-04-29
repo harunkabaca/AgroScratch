@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* ── Base ──────────────────────────────────────────── */
+/* ── Temalar ────────────────────────────────────────── */
+:root {
+  /* Dark (Default) */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --border: #334155;
+  --accent: #22c55e;
+  --accent-glow: rgba(34, 197, 94, 0.25);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --toolbar-bg: rgba(30,41,59,0.8);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+}
+
+[data-theme='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --border: #e2e8f0;
+  --accent: #16a34a;
+  --accent-glow: rgba(22, 163, 74, 0.15);
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --toolbar-bg: rgba(255, 255, 255, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+#root { height: 100vh; }
+
+/* ── Blockly Overrides ─────────────────────────────── */
+.blocklySvg { background: #0f172a !important; }
+.blocklyMainBackground { fill: #0f172a !important; stroke: none !important; }
+
+/* Toolbox ve Flyout kilitlenmelerini önle */
+.blocklyToolboxDiv { 
+  background: #1e293b !important; 
+  border-right: 1px solid #334155 !important;
+  overflow: hidden !important; /* Taşmaları engelle */
+}
+
+.blocklyFlyoutBackground { 
+  fill: #1e293b !important; 
+  fill-opacity: 0.95 !important; 
+}
+
+/* Hayalet scrollbar (kaydırma çubuğu) temizliği */
+.blocklyFlyout .blocklyScrollbarHandle,
+.blocklyFlyout .blocklyScrollbarBackground {
+  visibility: hidden !important; /* Varsayılan gizle */
+}
+
+/* Sadece flyout görünürken (transition bittiğinde) göster */
+.blocklyFlyout[style*="display: block"] .blocklyScrollbarHandle {
+  visibility: visible !important;
+}
+
+.blocklyScrollbarHandle { fill: #475569 !important; rx: 4; }
+.blocklyText { fill: #fff; font-family: 'Inter', sans-serif !important; font-weight: 600 !important; }
+.blocklyEditableText > rect { fill: #fff !important; stroke: #94a3b8 !important; }
+.blocklyEditableText > text { fill: #0f172a !important; }
+
+/* ── Glassmorphism ─────────────────────────────────── */
+.glass {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+/* ── Animations ────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+  50% { box-shadow: 0 0 24px var(--accent-glow), 0 0 48px var(--accent-glow); }
+}
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slide-up 0.3s ease-out; }
+
+/* ── Scratch Toolbox Style (Nuclear & Ferah) ── */
+.blocklyToolboxDiv { 
+  background: var(--bg-secondary) !important;
+  width: 120px !important; /* Çok daha geniş */
+  padding-top: 24px !important;
+  border-right: 2px solid var(--border) !important;
+}
+
+/* Kategori Arasındaki Boşluğu Garantiye Al */
+.blocklyTreeRow {
+  height: 96px !important; /* Dev kutular */
+  margin: 12px 0 !important; /* Alt alta mesafe */
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  display: block !important;
+  outline: none !important;
+}
+
+.blocklyTreeRowContentContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.blocklyTreeLabel {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 15px !important; /* Çok daha büyük yazı */
+  font-weight: 800 !important;
+  color: #ffffff !important; 
+  margin-top: 12px !important;
+  text-align: center;
+}
+
+.blocklyTreeIcon {
+  width: 42px !important; /* Dev ikonlar */
+  height: 42px !important;
+  border-radius: 50% !important;
+  background-image: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4) !important;
+}
+
+/* Renkleri de tazele */
+.scratch-cat-motion .blocklyTreeIcon { background-color: #4c97ff !important; }
+.scratch-cat-looks .blocklyTreeIcon { background-color: #9966ff !important; }
+.scratch-cat-sound .blocklyTreeIcon { background-color: #cf63cf !important; }
+.scratch-cat-events .blocklyTreeIcon { background-color: #ffbf00 !important; }
+.scratch-cat-control .blocklyTreeIcon { background-color: #ffab19 !important; }
+.scratch-cat-sensing .blocklyTreeIcon { background-color: #4cbfe6 !important; }
+.scratch-cat-operators .blocklyTreeIcon { background-color: #59c059 !important; }
+.scratch-cat-variables .blocklyTreeIcon { background-color: #ff8c1a !important; }
+
+/* Seçili ve Hover Durumu */
+.blocklyTreeRow:hover .blocklyTreeIcon { transform: scale(1.1); transition: transform 0.2s; }
+.blocklyTreeSelected { background: rgba(255,255,255,0.1) !important; border-radius: 15px; }
+
+/* Çoklu Seçim Efekti */
+.block-selected-glow {
+  filter: drop-shadow(0 0 8px #22c55e) !important;
+  stroke: #22c55e !important;
+  stroke-width: 3px !important;
+}
