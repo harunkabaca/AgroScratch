@@ -28,7 +28,7 @@ const getTheme = (mode) => Blockly.Theme.defineTheme('agro_' + mode, {
     toolboxForegroundColour: mode === 'dark' ? '#e2e8f0' : '#0f172a',
     flyoutBackgroundColour: mode === 'dark' ? '#1e293b' : '#ffffff',
     flyoutForegroundColour: mode === 'dark' ? '#e2e8f0' : '#0f172a',
-    flyoutOpacity: 0.95,
+    flyoutOpacity: 0.75,
     scrollbarColour: mode === 'dark' ? '#475569' : '#cbd5e1',
     insertionMarkerColour: '#22c55e',
     insertionMarkerOpacity: 0.5,
@@ -89,7 +89,14 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
       theme: getTheme(theme),
       renderer: 'zelos',
       grid: { spacing: 24, length: 3, colour: theme === 'dark' ? '#1e293b' : '#e2e8f0', snap: true },
-      zoom: { controls: true, wheel: true, startScale: 1.0, maxScale: 2, minScale: 0.4, scaleSpeed: 1.1 },
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 0.85, /* Workspace başlangıç ölçeği biraz daha küçük */
+        maxScale: 2,
+        minScale: 0.3,
+        scaleSpeed: 1.1
+      },
       trashcan: true,
       move: { scrollbars: true, drag: true, wheel: true },
       sounds: false,
@@ -99,6 +106,27 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
         metricsManager: 'ContinuousMetrics',
       }
     });
+
+    // Flyout (Toolbox'taki bloklar) ölçeğini küçültelim ve KESİN OLARAK KİLİTLEYELİM
+    if (ws.getFlyout()) {
+      const flyout = ws.getFlyout();
+      const flyoutWs = flyout.workspace_;
+      
+      // Flyout zoom olaylarını yakalayıp sadece kaydırmaya yönlendiriyoruz
+      const flyoutSvg = flyout.workspace_.getSvgRoot();
+      flyoutSvg.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault(); // Zoom'u engelle
+          e.stopPropagation(); 
+        }
+      }, { capture: true, passive: false });
+
+      // Ölçeği sadece bir kez düzgünce ayarla
+      flyoutWs.setScale(0.65);
+      
+      // Zoom butonlarının flyout'u etkilemesini engellemek için zoom fonksiyonunu kapa
+      flyoutWs.zoom = () => {};
+    }
 
     workspaceRef.current = ws;
     if (onWorkspaceReady) onWorkspaceReady(ws);
@@ -165,7 +193,7 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
       const bBox = block.getSvgRoot().getBoundingClientRect();
       const bx = bBox.left - containerRect.left;
       const by = bBox.top - containerRect.top;
-      
+
       // Bloğun merkezi veya tamamı içindeyse seç
       if (bx >= x1 && bx + bBox.width <= x2 && by >= y1 && by + bBox.height <= y2) {
         selectionSet.current.add(block.id);

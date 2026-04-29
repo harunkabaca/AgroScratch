@@ -40,6 +40,82 @@ export const translations = {
     inspectMode: 'İnceleme Modu',
     pause: 'Duraklat',
     resume: 'Devam Et',
+    
+    // ── Sulama Blokları ──
+    BLOCK_WATER_ON: '💧 sulamayı aç',
+    BLOCK_WATER_OFF: '🚫 sulamayı kapat',
+    BLOCK_WATER_FOR: '💧 %1 saniye sula',
+    BLOCK_SET_WATER_FLOW: '💧 su akış hızını %1 mL/s yap',
+    BLOCK_DRIP_IRRIGATE: '🌧 damlatma sulama: %1 mL',
+    BLOCK_WATER_AREA: '💦 alanı sula X1:%1 Y1:%2 X2:%3 Y2:%4',
+    
+    // ── Ekim Blokları ──
+    BLOCK_PLANT_SEED: '🌱 %1 tohumu ek',
+    BLOCK_SET_SEED_DEPTH: '🌱 ekim derinliğini %1 mm yap',
+    BLOCK_PLANT_ROW: '🌿 sıra halinde ek: %1 tohum, aralık %2 mm',
+    BLOCK_PLANT_GRID: '🌾 ızgara ekim: %1 x %2 aralık %3 mm',
+    BLOCK_PICKUP_SEED: '🔽 vakumla tohum al',
+    BLOCK_DROP_SEED: '🔼 tohumu toprağa bırak',
+    
+    // ── Ot Alma Blokları ──
+    BLOCK_DETECT_WEEDS: '🔍 otları tespit et',
+    BLOCK_REMOVE_WEED: '🌿 otu sök',
+    BLOCK_SCAN_WEEDS: '🔎 alan ot tara: X1:%1 Y1:%2 X2:%3 Y2:%4',
+    BLOCK_CLEAR_ALL_WEEDS: '🧹 tespit edilen tüm otları temizle',
+    BLOCK_WEED_COUNT: 'tespit edilen ot sayısı',
+    
+    // ── Toprak & Sensörler ──
+    BLOCK_SOIL_ANALYSIS: '🧪 toprak analizi yap',
+    BLOCK_READ_MOISTURE: '🌡 toprak nemi oku',
+    BLOCK_READ_SOIL_TEMP: '🌡 toprak sıcaklığı oku',
+    BLOCK_READ_PH: '🧪 toprak pH oku',
+    BLOCK_READ_AIR_TEMP: '🌡 hava sıcaklığı oku',
+    BLOCK_READ_HUMIDITY: '💧 hava nemi oku',
+    BLOCK_READ_LIGHT: '☀️ ışık seviyesi oku',
+    BLOCK_IS_SOIL_WET: 'toprak ıslak mı?',
+    
+    // ── Kamera Blokları ──
+    BLOCK_TAKE_PHOTO: '📸 fotoğraf çek',
+    BLOCK_DETECT_PLANTS: '🌱 bitkileri tespit et',
+    BLOCK_CHECK_PLANT_HEALTH: '🏥 bitki sağlığını kontrol et',
+    BLOCK_MEASURE_HEIGHT: '📏 bitki boyunu ölç',
+    BLOCK_SCAN_GARDEN: '🗺 bahçeyi tara (haritala)',
+    BLOCK_PLANT_COUNT: 'bahçedeki bitki sayısı',
+    
+    // ── Araçlar & Donanım ──
+    BLOCK_MOUNT_TOOL: '🔧 %1 aletini tak',
+    BLOCK_DISMOUNT_TOOL: '🔧 aleti yerine bırak',
+    BLOCK_CALIBRATE_TOOL: '🎯 aleti kalibre et',
+    BLOCK_LED_ON: '💡 %1 LED aç',
+    BLOCK_LED_OFF: '💡 LED kapat',
+    BLOCK_VACUUM_ON: '🔽 vakumu başlat',
+    BLOCK_VACUUM_OFF: '🔼 vakumu durdur',
+    BLOCK_SET_SPEED: '⚡ robot hızını %1 % yap',
+    BLOCK_WRITE_PIN: '🔌 Pin %1 değerini %2 yap',
+    BLOCK_READ_PIN: '🔌 Pin %1 değerini oku',
+    BLOCK_EMERGENCY_STOP: '🛑 ACİL DURDURMA',
+    
+    // ── Gelişmiş Hareket ──
+    BLOCK_GOTO_PLANT: '🌱 %1 bitkisine git',
+    BLOCK_GOTO_TOOL_BAY: '🔧 alet istasyonuna git',
+    BLOCK_GOTO_SEED_TRAY: '📦 tohum tepsisine git',
+    BLOCK_GOTO_WATER_SOURCE: '💧 su kaynağına git',
+    BLOCK_PARK: '🅿️ robotu park et',
+    BLOCK_CALIBRATE: '🎯 %1 eksenini kalibre et',
+    BLOCK_FIND_HOME: '🏠 %1 başlangıç noktasını bul',
+    BLOCK_GRID_SCAN: '🗺 ızgara tarama yap (aralık: %1)',
+    
+    // ── Sekanslar & Otomasyon ──
+    BLOCK_RUN_SEQUENCE: '▶ %1 sekansını çalıştır',
+    BLOCK_SCHEDULE: '📅 %1 çalıştır:',
+    BLOCK_WATER_ALL_PLANTS: '💦 tüm bitkileri sula',
+    BLOCK_FOR_EACH_PLANT: '🌿 her bitki için:',
+    BLOCK_GENERATE_REPORT: '📊 bahçe raporu oluştur',
+    BLOCK_SEND_NOTIFICATION: '📢 %1 ile mesaj gönder: %2',
+    BLOCK_CURRENT_TIME: '🕐 mevcut %1',
+    BLOCK_IS_DAYTIME: '☀️ gündüz mü?',
+
+    // Sabitler
     TOOL_NONE: 'Yok (Boş)',
     TOOL_WATER: '💧 Sulama Ucu',
     TOOL_SEEDER: '🌱 Tohum Ucu',
@@ -48,6 +124,7 @@ export const translations = {
     SENSOR_MOISTURE: '🌡 Toprak Nemi',
     SENSOR_LIGHT: '☀️ Işık Seviyesi',
     SENSOR_TEMP: '🌡 Hava Sıcaklığı',
+    
     BLOCK_MOVE_TO: '📍 konuma git X: %1 Y: %2 Z: %3',
     BLOCK_GO_HOME: '🏠 başlangıç konumuna git (0,0,0)',
     BLOCK_CHANGE_X: 'X konumunu %1 değiştir',
@@ -79,7 +156,7 @@ export const translations = {
     showCode: 'View Code',
     close: 'Close',
     generatedCode: 'Generated JavaScript Code',
-    noBlocks: '// Drag blocks to workspace and click "View Code"',
+    noBlocks: '// Drag blocks to workspace and click "Run"',
     status: 'Ready',
     executing: 'Executing...',
     watering: 'Watering Active',
@@ -111,6 +188,81 @@ export const translations = {
     inspectMode: 'Inspect Mode',
     pause: 'Pause',
     resume: 'Resume',
+
+    // ── Watering Blocks ──
+    BLOCK_WATER_ON: '💧 water on',
+    BLOCK_WATER_OFF: '🚫 water off',
+    BLOCK_WATER_FOR: '💧 water for %1 seconds',
+    BLOCK_SET_WATER_FLOW: '💧 set water flow to %1 mL/s',
+    BLOCK_DRIP_IRRIGATE: '🌧 drip irrigate: %1 mL',
+    BLOCK_WATER_AREA: '💦 water area X1:%1 Y1:%2 X2:%3 Y2:%4',
+
+    // ── Seeding Blocks ──
+    BLOCK_PLANT_SEED: '🌱 plant %1 seed',
+    BLOCK_SET_SEED_DEPTH: '🌱 set seeding depth to %1 mm',
+    BLOCK_PLANT_ROW: '🌿 plant row: %1 seeds, spacing %2 mm',
+    BLOCK_PLANT_GRID: '🌾 grid seeding: %1 x %2 spacing %3 mm',
+    BLOCK_PICKUP_SEED: '🔽 pickup seed with vacuum',
+    BLOCK_DROP_SEED: '🔼 drop seed to soil',
+
+    // ── Weeding Blocks ──
+    BLOCK_DETECT_WEEDS: '🔍 detect weeds',
+    BLOCK_REMOVE_WEED: '🌿 remove weed',
+    BLOCK_SCAN_WEEDS: '🔎 scan area for weeds: X1:%1 Y1:%2 X2:%3 Y2:%4',
+    BLOCK_CLEAR_ALL_WEEDS: '🧹 clear all detected weeds',
+    BLOCK_WEED_COUNT: 'detected weed count',
+
+    // ── Soil & Sensors ──
+    BLOCK_SOIL_ANALYSIS: '🧪 perform soil analysis',
+    BLOCK_READ_MOISTURE: '🌡 read soil moisture',
+    BLOCK_READ_SOIL_TEMP: '🌡 read soil temperature',
+    BLOCK_READ_PH: '🧪 read soil pH',
+    BLOCK_READ_AIR_TEMP: '🌡 read air temperature',
+    BLOCK_READ_HUMIDITY: '💧 read air humidity',
+    BLOCK_READ_LIGHT: '☀️ read light level',
+    BLOCK_IS_SOIL_WET: 'is soil wet?',
+
+    // ── Camera Blocks ──
+    BLOCK_TAKE_PHOTO: '📸 take photo',
+    BLOCK_DETECT_PLANTS: '🌱 detect plants',
+    BLOCK_CHECK_PLANT_HEALTH: '🏥 check plant health',
+    BLOCK_MEASURE_HEIGHT: '📏 measure plant height',
+    BLOCK_SCAN_GARDEN: '🗺 scan garden (mapping)',
+    BLOCK_PLANT_COUNT: 'plant count in garden',
+
+    // ── Tools & Hardware ──
+    BLOCK_MOUNT_TOOL: '🔧 mount %1 tool',
+    BLOCK_DISMOUNT_TOOL: '🔧 dismount tool',
+    BLOCK_CALIBRATE_TOOL: '🎯 calibrate tool',
+    BLOCK_LED_ON: '💡 turn %1 LED on',
+    BLOCK_LED_OFF: '💡 turn LED off',
+    BLOCK_VACUUM_ON: '🔽 start vacuum',
+    BLOCK_VACUUM_OFF: '🔼 stop vacuum',
+    BLOCK_SET_SPEED: '⚡ set robot speed to %1 %',
+    BLOCK_WRITE_PIN: '🔌 write Pin %1 value %2',
+    BLOCK_READ_PIN: '🔌 read Pin %1 value',
+    BLOCK_EMERGENCY_STOP: '🛑 EMERGENCY STOP',
+
+    // ── Advanced Movement ──
+    BLOCK_GOTO_PLANT: '🌱 go to %1 plant',
+    BLOCK_GOTO_TOOL_BAY: '🔧 go to tool station',
+    BLOCK_GOTO_SEED_TRAY: '📦 go to seed tray',
+    BLOCK_GOTO_WATER_SOURCE: '💧 go to water source',
+    BLOCK_PARK: '🅿️ park robot',
+    BLOCK_CALIBRATE: '🎯 calibrate %1 axis',
+    BLOCK_FIND_HOME: '🏠 find home for %1 axis',
+    BLOCK_GRID_SCAN: '🗺 perform grid scan (spacing: %1)',
+
+    // ── Sequences & Automation ──
+    BLOCK_RUN_SEQUENCE: '▶ run %1 sequence',
+    BLOCK_SCHEDULE: '📅 run %1:',
+    BLOCK_WATER_ALL_PLANTS: '💦 water all plants',
+    BLOCK_FOR_EACH_PLANT: '🌿 for each plant:',
+    BLOCK_GENERATE_REPORT: '📊 generate garden report',
+    BLOCK_SEND_NOTIFICATION: '📢 send message via %1: %2',
+    BLOCK_CURRENT_TIME: '🕐 current %1',
+    BLOCK_IS_DAYTIME: '☀️ is it daytime?',
+
     TOOL_NONE: 'None (Empty)',
     TOOL_WATER: '💧 Watering Nozzle',
     TOOL_SEEDER: '🌱 Seeder',
@@ -150,7 +302,7 @@ export const translations = {
     showCode: 'Code anzeigen',
     close: 'Schließen',
     generatedCode: 'Generierter JavaScript-Code',
-    noBlocks: '// Blöcke in den Arbeitsbereich ziehen und "Code anzeigen" klicken',
+    noBlocks: '// Blöcke in den Arbeitsbereich ziehen und "Ausführen" klicken',
     status: 'Bereit',
     executing: 'Wird ausgeführt...',
     watering: 'Bewässerung Aktiv',
@@ -182,12 +334,87 @@ export const translations = {
     inspectMode: 'Inspektionsmodus',
     pause: 'Pause',
     resume: 'Fortsetzen',
+
+    // ── Bewässerung ──
+    BLOCK_WATER_ON: '💧 Bewässerung an',
+    BLOCK_WATER_OFF: '🚫 Bewässerung aus',
+    BLOCK_WATER_FOR: '💧 %1 Sekunden bewässern',
+    BLOCK_SET_WATER_FLOW: '💧 Wasserdurchfluss auf %1 mL/s einstellen',
+    BLOCK_DRIP_IRRIGATE: '🌧 Tröpfchenbewässerung: %1 mL',
+    BLOCK_WATER_AREA: '💦 Bereich bewässern X1:%1 Y1:%2 X2:%3 Y2:%4',
+
+    // ── Aussaat ──
+    BLOCK_PLANT_SEED: '🌱 %1 Samen pflanzen',
+    BLOCK_SET_SEED_DEPTH: '🌱 Saattiefe auf %1 mm einstellen',
+    BLOCK_PLANT_ROW: '🌿 Reihe pflanzen: %1 Samen, Abstand %2 mm',
+    BLOCK_PLANT_GRID: '🌾 Gittersaat: %1 x %2 Abstand %3 mm',
+    BLOCK_PICKUP_SEED: '🔽 Samen mit Vakuum aufnehmen',
+    BLOCK_DROP_SEED: '🔼 Samen in den Boden legen',
+
+    // ── Unkraut ──
+    BLOCK_DETECT_WEEDS: '🔍 Unkraut erkennen',
+    BLOCK_REMOVE_WEED: '🌿 Unkraut entfernen',
+    BLOCK_SCAN_WEEDS: '🔎 Bereich nach Unkraut scannen: X1:%1 Y1:%2 X2:%3 Y2:%4',
+    BLOCK_CLEAR_ALL_WEEDS: '🧹 alle erkannten Unkräuter entfernen',
+    BLOCK_WEED_COUNT: 'erkannte Unkrautanzahl',
+
+    // ── Boden & Sensoren ──
+    BLOCK_SOIL_ANALYSIS: '🧪 Bodenanalyse durchführen',
+    BLOCK_READ_MOISTURE: '🌡 Bodenfeuchtigkeit lesen',
+    BLOCK_READ_SOIL_TEMP: '🌡 Bodentemperatur lesen',
+    BLOCK_READ_PH: '🧪 Boden-pH-Wert lesen',
+    BLOCK_READ_AIR_TEMP: '🌡 Lufttemperatur lesen',
+    BLOCK_READ_HUMIDITY: '💧 Luftfeuchtigkeit lesen',
+    BLOCK_READ_LIGHT: '☀️ Lichtstärke lesen',
+    BLOCK_IS_SOIL_WET: 'ist der Boden feucht?',
+
+    // ── Kamera ──
+    BLOCK_TAKE_PHOTO: '📸 Foto aufnehmen',
+    BLOCK_DETECT_PLANTS: '🌱 Pflanzen erkennen',
+    BLOCK_CHECK_PLANT_HEALTH: '🏥 Pflanzengesundheit prüfen',
+    BLOCK_MEASURE_HEIGHT: '📏 Pflanzenhöhe messen',
+    BLOCK_SCAN_GARDEN: '🗺 Garten scannen (Kartierung)',
+    BLOCK_PLANT_COUNT: 'Anzahl der Pflanzen im Garten',
+
+    // ── Werkzeuge & Hardware ──
+    BLOCK_MOUNT_TOOL: '🔧 %1 Werkzeug montieren',
+    BLOCK_DISMOUNT_TOOL: '🔧 Werkzeug ablegen',
+    BLOCK_CALIBRATE_TOOL: '🎯 Werkzeug kalibrieren',
+    BLOCK_LED_ON: '💡 %1 LED einschalten',
+    BLOCK_LED_OFF: '💡 LED ausschalten',
+    BLOCK_VACUUM_ON: '🔽 Vakuum starten',
+    BLOCK_VACUUM_OFF: '🔼 Vakuum stoppen',
+    BLOCK_SET_SPEED: '⚡ Robotgeschwindigkeit auf %1 % einstellen',
+    BLOCK_WRITE_PIN: '🔌 Pin %1 Wert %2 schreiben',
+    BLOCK_READ_PIN: '🔌 Pin %1 Wert lesen',
+    BLOCK_EMERGENCY_STOP: '🛑 NOT-AUS',
+
+    // ── Erweiterte Bewegung ──
+    BLOCK_GOTO_PLANT: '🌱 gehe zu %1 Pflanze',
+    BLOCK_GOTO_TOOL_BAY: '🔧 gehe zur Werkzeugstation',
+    BLOCK_GOTO_SEED_TRAY: '📦 gehe zur Saatschale',
+    BLOCK_GOTO_WATER_SOURCE: '💧 gehe zur Wasserquelle',
+    BLOCK_PARK: '🅿️ Roboter parken',
+    BLOCK_CALIBRATE: '🎯 %1 Achse kalibrieren',
+    BLOCK_FIND_HOME: '🏠 Startpunkt für %1 Achse finden',
+    BLOCK_GRID_SCAN: '🗺 Gitterscan durchführen (Abstand: %1)',
+
+    // ── Sequenzen ──
+    BLOCK_RUN_SEQUENCE: '▶ %1 Sequenz ausführen',
+    BLOCK_SCHEDULE: '📅 %1 ausführen:',
+    BLOCK_WATER_ALL_PLANTS: '💦 alle Pflanzen bewässern',
+    BLOCK_FOR_EACH_PLANT: '🌿 für jede Pflanze:',
+    BLOCK_GENERATE_REPORT: '📊 Gartenbericht erstellen',
+    BLOCK_SEND_NOTIFICATION: '📢 Nachricht über %1 senden: %2',
+    BLOCK_CURRENT_TIME: '🕐 aktuelle %1',
+    BLOCK_IS_DAYTIME: '☀️ ist es Tag?',
+
     TOOL_NONE: 'Keine (Leer)',
     TOOL_WATER: '💧 Bewässerungsdüse',
     TOOL_SEEDER: '🌱 Sämaschine',
     TOOL_WEEDER: '🌿 Jäter',
     TOOL_CAMERA: '📷 Kamera',
-    SENSOR_MOISTURE: '🌡 Bodenfeuchtigkeit',
+    SENSOR_MOISTURE: ' Bodenfeuchtigkeit',
     SENSOR_LIGHT: '☀️ Lichtniveau',
     SENSOR_TEMP: '🌡 Lufttemperatur',
     BLOCK_MOVE_TO: '📍 gehe zu X: %1 Y: %2 Z: %3',
@@ -213,3 +440,4 @@ export const translations = {
     BLOCK_PLAY_SOUND: '🔊 spiele Klang %1'
   }
 };
+
