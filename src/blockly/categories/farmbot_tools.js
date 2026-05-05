@@ -6,16 +6,16 @@ import * as Blockly from 'blockly';
 Blockly.Blocks['farmbot_mount_tool'] = {
   init() {
     const options = [
-      [Blockly.Msg['TOOL_WATER'] || '💧 Sulama Ucu', 'WATERING_NOZZLE'],
-      [Blockly.Msg['TOOL_SEEDER'] || '🌱 Tohum Ucu', 'SEEDER'],
-      [Blockly.Msg['TOOL_WEEDER'] || '🌿 Ot Alma Ucu', 'WEEDER'],
-      [Blockly.Msg['TOOL_CAMERA'] || '📷 Kamera', 'CAMERA'],
-      [Blockly.Msg['TOOL_SOIL_SENSOR'] || '🧪 Toprak Sensörü', 'SOIL_SENSOR'],
-      [Blockly.Msg['TOOL_ROTARY'] || '🔄 Döner Alet', 'ROTARY'],
+      ['%{BKY_TOOL_WATER}', 'WATERING_NOZZLE'],
+      ['%{BKY_TOOL_SEEDER}', 'SEEDER'],
+      ['%{BKY_TOOL_WEEDER}', 'WEEDER'],
+      ['%{BKY_TOOL_CAMERA}', 'CAMERA'],
+      ['%{BKY_TOOL_SOIL_SENSOR}', 'SOIL_SENSOR'],
+      ['%{BKY_TOOL_ROTARY}', 'ROTARY'],
     ];
     this.jsonInit({
       type: 'farmbot_mount_tool',
-      message0: Blockly.Msg['BLOCK_MOUNT_TOOL'] || '🔧 %1 aletini tak',
+      message0: '%{BKY_BLOCK_MOUNT_TOOL}',
       args0: [{ type: 'field_dropdown', name: 'TOOL', options }],
       previousStatement: null,
       nextStatement: null,
@@ -30,7 +30,7 @@ Blockly.Blocks['farmbot_dismount_tool'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_dismount_tool',
-      message0: Blockly.Msg['BLOCK_DISMOUNT_TOOL'] || '🔧 aleti çıkar ve yerine koy',
+      message0: '%{BKY_BLOCK_DISMOUNT_TOOL}',
       previousStatement: null,
       nextStatement: null,
       colour: '#64748b',
@@ -44,7 +44,7 @@ Blockly.Blocks['farmbot_calibrate_tool'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_calibrate_tool',
-      message0: Blockly.Msg['BLOCK_CALIBRATE_TOOL'] || '🎯 mevcut aleti kalibre et',
+      message0: '%{BKY_BLOCK_CALIBRATE_TOOL}',
       previousStatement: null,
       nextStatement: null,
       colour: '#64748b',
@@ -57,14 +57,14 @@ Blockly.Blocks['farmbot_calibrate_tool'] = {
 Blockly.Blocks['farmbot_led_on'] = {
   init() {
     const colors = [
-      [Blockly.Msg['LED_WHITE'] || '⬜ Beyaz', 'WHITE'],
-      [Blockly.Msg['LED_RED'] || '🟥 Kırmızı', 'RED'],
-      [Blockly.Msg['LED_GREEN'] || '🟩 Yeşil', 'GREEN'],
-      [Blockly.Msg['LED_BLUE'] || '🟦 Mavi', 'BLUE'],
+      ['%{BKY_LED_WHITE}', 'WHITE'],
+      ['%{BKY_LED_RED}', 'RED'],
+      ['%{BKY_LED_GREEN}', 'GREEN'],
+      ['%{BKY_LED_BLUE}', 'BLUE'],
     ];
     this.jsonInit({
       type: 'farmbot_led_on',
-      message0: Blockly.Msg['BLOCK_LED_ON'] || '💡 %1 LED aç',
+      message0: '%{BKY_BLOCK_LED_ON}',
       args0: [{ type: 'field_dropdown', name: 'COLOR', options: colors }],
       previousStatement: null,
       nextStatement: null,
@@ -79,7 +79,7 @@ Blockly.Blocks['farmbot_led_off'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_led_off',
-      message0: Blockly.Msg['BLOCK_LED_OFF'] || '💡 LED kapat',
+      message0: '%{BKY_BLOCK_LED_OFF}',
       previousStatement: null,
       nextStatement: null,
       colour: '#64748b',
@@ -93,7 +93,7 @@ Blockly.Blocks['farmbot_vacuum_on'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_vacuum_on',
-      message0: Blockly.Msg['BLOCK_VACUUM_ON'] || '🔽 vakumu aç',
+      message0: '%{BKY_BLOCK_VACUUM_ON}',
       previousStatement: null,
       nextStatement: null,
       colour: '#64748b',
@@ -107,7 +107,7 @@ Blockly.Blocks['farmbot_vacuum_off'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_vacuum_off',
-      message0: Blockly.Msg['BLOCK_VACUUM_OFF'] || '🔼 vakumu kapat',
+      message0: '%{BKY_BLOCK_VACUUM_OFF}',
       previousStatement: null,
       nextStatement: null,
       colour: '#64748b',
@@ -121,7 +121,7 @@ Blockly.Blocks['farmbot_set_speed'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_set_speed',
-      message0: Blockly.Msg['BLOCK_SET_SPEED'] || '⚡ hareket hızını %1 %% yap',
+      message0: '%{BKY_BLOCK_SET_SPEED}',
       args0: [{ type: 'input_value', name: 'SPEED', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -136,7 +136,7 @@ Blockly.Blocks['farmbot_emergency_stop'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_emergency_stop',
-      message0: Blockly.Msg['BLOCK_EMERGENCY_STOP'] || '🛑 acil durdur',
+      message0: '%{BKY_BLOCK_EMERGENCY_STOP}',
       previousStatement: null,
       colour: '#dc2626',
       tooltip: 'FarmBot\'u acil olarak durdurur — programı sonlandırır',
@@ -149,14 +149,14 @@ Blockly.Blocks['farmbot_write_pin'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_write_pin',
-      message0: Blockly.Msg['BLOCK_WRITE_PIN'] || '🔌 pin %1 → %2',
+      message0: '%{BKY_BLOCK_WRITE_PIN}',
       args0: [
         { type: 'input_value', name: 'PIN', check: 'Number' },
         {
           type: 'field_dropdown', name: 'VALUE',
           options: [
-            [Blockly.Msg['PIN_HIGH'] || 'AÇIK (1)', '1'],
-            [Blockly.Msg['PIN_LOW'] || 'KAPALI (0)', '0'],
+            ['%{BKY_PIN_HIGH}', '1'],
+            ['%{BKY_PIN_LOW}', '0'],
           ],
         },
       ],
@@ -174,7 +174,7 @@ Blockly.Blocks['farmbot_read_pin'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_pin',
-      message0: Blockly.Msg['BLOCK_READ_PIN'] || '🔌 pin %1 değerini oku',
+      message0: '%{BKY_BLOCK_READ_PIN}',
       args0: [{ type: 'input_value', name: 'PIN', check: 'Number' }],
       output: 'Number',
       colour: '#64748b',

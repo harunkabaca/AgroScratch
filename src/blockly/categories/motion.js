@@ -7,7 +7,7 @@ Blockly.Blocks['motion_gotoxyz'] = {
   init() {
     this.jsonInit({
       type: 'motion_gotoxyz',
-      message0: Blockly.Msg['BLOCK_MOVE_TO'],
+      message0: '%{BKY_BLOCK_MOVE_TO}',
       args0: [
         { type: 'input_value', name: 'X', check: 'Number' },
         { type: 'input_value', name: 'Y', check: 'Number' },
@@ -25,7 +25,7 @@ Blockly.Blocks['motion_gohome'] = {
   init() {
     this.jsonInit({
       type: 'motion_gohome',
-      message0: Blockly.Msg['BLOCK_GO_HOME'],
+      message0: '%{BKY_BLOCK_GO_HOME}',
       previousStatement: null,
       nextStatement: null,
       colour: '#3b82f6',
@@ -38,7 +38,7 @@ Blockly.Blocks['motion_changex'] = {
   init() {
     this.jsonInit({
       type: 'motion_changex',
-      message0: Blockly.Msg['BLOCK_CHANGE_X'],
+      message0: '%{BKY_BLOCK_CHANGE_X}',
       args0: [
         { type: 'input_value', name: 'DX', check: 'Number' },
       ],
@@ -54,7 +54,7 @@ Blockly.Blocks['motion_changey'] = {
   init() {
     this.jsonInit({
       type: 'motion_changey',
-      message0: Blockly.Msg['BLOCK_CHANGE_Y'],
+      message0: '%{BKY_BLOCK_CHANGE_Y}',
       args0: [
         { type: 'input_value', name: 'DY', check: 'Number' },
       ],
@@ -70,7 +70,7 @@ Blockly.Blocks['motion_changez'] = {
   init() {
     this.jsonInit({
       type: 'motion_changez',
-      message0: Blockly.Msg['BLOCK_CHANGE_Z'],
+      message0: '%{BKY_BLOCK_CHANGE_Z}',
       args0: [
         { type: 'input_value', name: 'DZ', check: 'Number' },
       ],

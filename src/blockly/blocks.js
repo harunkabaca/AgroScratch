@@ -3,6 +3,7 @@
  * FarmBot odaklı kapsamlı blok kütüphanesi
  */
 import * as Blockly from 'blockly';
+// FORCE VITE RELOAD 1
 
 // ── Scratch-tarzı temel kategoriler ──
 import './categories/events';

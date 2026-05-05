@@ -93,12 +93,16 @@ export default function Toolbar({
         <button
           onClick={() => setBigScreenOnRun(!bigScreenOnRun)}
           title={t.bigScreenOnRun}
+          className="toolbar-toggle-btn"
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
-            padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border)',
-            background: bigScreenOnRun ? 'var(--accent)' : 'var(--bg-secondary)', 
-            color: bigScreenOnRun ? '#fff' : 'var(--text-secondary)', cursor: 'pointer',
-            fontSize: 10, fontWeight: 800, transition: 'all 0.2s',
+            padding: '6px 14px', borderRadius: 12, 
+            border: `1.5px solid ${bigScreenOnRun ? 'var(--accent)' : 'var(--border)'}`,
+            background: bigScreenOnRun ? 'rgba(34, 197, 94, 0.15)' : 'rgba(255, 255, 255, 0.03)', 
+            color: bigScreenOnRun ? 'var(--accent)' : 'var(--text-primary)', 
+            cursor: 'pointer',
+            fontSize: 10, fontWeight: 800, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: bigScreenOnRun ? '0 0 15px rgba(34, 197, 94, 0.2)' : 'none',
           }}
         >
           <Monitor size={14} /> {t.bigScreenOnRun}
@@ -108,12 +112,16 @@ export default function Toolbar({
         <button
           onClick={() => setIsInspectMode(!isInspectMode)}
           title={t.inspectMode}
+          className="toolbar-toggle-btn"
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
-            padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border)',
-            background: isInspectMode ? '#9333ea' : 'var(--bg-secondary)', 
-            color: isInspectMode ? '#fff' : 'var(--text-secondary)', cursor: 'pointer',
-            fontSize: 10, fontWeight: 800, transition: 'all 0.2s',
+            padding: '6px 14px', borderRadius: 12, 
+            border: `1.5px solid ${isInspectMode ? '#9333ea' : 'var(--border)'}`,
+            background: isInspectMode ? 'rgba(147, 51, 234, 0.15)' : 'rgba(255, 255, 255, 0.03)', 
+            color: isInspectMode ? '#a855f7' : 'var(--text-primary)', 
+            cursor: 'pointer',
+            fontSize: 10, fontWeight: 800, transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: isInspectMode ? '0 0 15px rgba(147, 51, 234, 0.2)' : 'none',
           }}
         >
           <Maximize2 size={14} /> {t.inspectMode}

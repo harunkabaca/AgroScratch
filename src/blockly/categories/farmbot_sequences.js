@@ -6,15 +6,15 @@ import * as Blockly from 'blockly';
 Blockly.Blocks['farmbot_run_sequence'] = {
   init() {
     const seqs = [
-      [Blockly.Msg['SEQ_WATER_ALL'] || '💧 Hepsini Sula', 'WATER_ALL'],
-      [Blockly.Msg['SEQ_SEED_ALL'] || '🌱 Hepsine Tohum Ek', 'SEED_ALL'],
-      [Blockly.Msg['SEQ_WEED_ALL'] || '🌿 Hepsini Ot Temizle', 'WEED_ALL'],
-      [Blockly.Msg['SEQ_PHOTO_ALL'] || '📸 Hepsini Fotoğrafla', 'PHOTO_ALL'],
-      [Blockly.Msg['SEQ_SOIL_TEST'] || '🧪 Toprak Testi', 'SOIL_TEST'],
+      ['%{BKY_SEQ_WATER_ALL}', 'WATER_ALL'],
+      ['%{BKY_SEQ_SEED_ALL}', 'SEED_ALL'],
+      ['%{BKY_SEQ_WEED_ALL}', 'WEED_ALL'],
+      ['%{BKY_SEQ_PHOTO_ALL}', 'PHOTO_ALL'],
+      ['%{BKY_SEQ_SOIL_TEST}', 'SOIL_TEST'],
     ];
     this.jsonInit({
       type: 'farmbot_run_sequence',
-      message0: Blockly.Msg['BLOCK_RUN_SEQUENCE'] || '▶ %1 sekansını çalıştır',
+      message0: '%{BKY_BLOCK_RUN_SEQUENCE}',
       args0: [{ type: 'field_dropdown', name: 'SEQUENCE', options: seqs }],
       previousStatement: null,
       nextStatement: null,
@@ -28,13 +28,13 @@ Blockly.Blocks['farmbot_run_sequence'] = {
 Blockly.Blocks['farmbot_schedule'] = {
   init() {
     const intervals = [
-      [Blockly.Msg['INTERVAL_HOURLY'] || '⏰ Her Saat', 'HOURLY'],
-      [Blockly.Msg['INTERVAL_DAILY'] || '📅 Her Gün', 'DAILY'],
-      [Blockly.Msg['INTERVAL_WEEKLY'] || '📅 Her Hafta', 'WEEKLY'],
+      ['%{BKY_INTERVAL_HOURLY}', 'HOURLY'],
+      ['%{BKY_INTERVAL_DAILY}', 'DAILY'],
+      ['%{BKY_INTERVAL_WEEKLY}', 'WEEKLY'],
     ];
     this.jsonInit({
       type: 'farmbot_schedule',
-      message0: Blockly.Msg['BLOCK_SCHEDULE'] || '📅 %1 çalıştır:',
+      message0: '%{BKY_BLOCK_SCHEDULE}',
       args0: [{ type: 'field_dropdown', name: 'INTERVAL', options: intervals }],
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
@@ -51,7 +51,7 @@ Blockly.Blocks['farmbot_water_all_plants'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_water_all_plants',
-      message0: Blockly.Msg['BLOCK_WATER_ALL_PLANTS'] || '💦 tüm bitkileri sula',
+      message0: '%{BKY_BLOCK_WATER_ALL_PLANTS}',
       previousStatement: null,
       nextStatement: null,
       colour: '#6366f1',
@@ -65,7 +65,7 @@ Blockly.Blocks['farmbot_for_each_plant'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_for_each_plant',
-      message0: Blockly.Msg['BLOCK_FOR_EACH_PLANT'] || '🌿 her bitki için:',
+      message0: '%{BKY_BLOCK_FOR_EACH_PLANT}',
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
       previousStatement: null,
@@ -81,7 +81,7 @@ Blockly.Blocks['farmbot_generate_report'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_generate_report',
-      message0: Blockly.Msg['BLOCK_GENERATE_REPORT'] || '📊 bahçe raporu oluştur',
+      message0: '%{BKY_BLOCK_GENERATE_REPORT}',
       previousStatement: null,
       nextStatement: null,
       colour: '#6366f1',
@@ -94,13 +94,13 @@ Blockly.Blocks['farmbot_generate_report'] = {
 Blockly.Blocks['farmbot_send_notification'] = {
   init() {
     const channels = [
-      [Blockly.Msg['NOTIFY_LOG'] || '📋 Konsol', 'LOG'],
-      [Blockly.Msg['NOTIFY_EMAIL'] || '📧 E-posta', 'EMAIL'],
-      [Blockly.Msg['NOTIFY_TOAST'] || '🔔 Bildirim', 'TOAST'],
+      ['%{BKY_NOTIFY_LOG}', 'LOG'],
+      ['%{BKY_NOTIFY_EMAIL}', 'EMAIL'],
+      ['%{BKY_NOTIFY_TOAST}', 'TOAST'],
     ];
     this.jsonInit({
       type: 'farmbot_send_notification',
-      message0: Blockly.Msg['BLOCK_SEND_NOTIFICATION'] || '📢 %1 ile mesaj gönder: %2',
+      message0: '%{BKY_BLOCK_SEND_NOTIFICATION}',
       args0: [
         { type: 'field_dropdown', name: 'CHANNEL', options: channels },
         { type: 'input_value', name: 'MESSAGE', check: 'String' },
@@ -118,14 +118,14 @@ Blockly.Blocks['farmbot_send_notification'] = {
 Blockly.Blocks['farmbot_current_time'] = {
   init() {
     const parts = [
-      [Blockly.Msg['TIME_HOUR'] || '⏰ Saat', 'HOUR'],
-      [Blockly.Msg['TIME_MINUTE'] || '⏰ Dakika', 'MINUTE'],
-      [Blockly.Msg['TIME_DAY'] || '📅 Gün', 'DAY'],
-      [Blockly.Msg['TIME_MONTH'] || '📅 Ay', 'MONTH'],
+      ['%{BKY_TIME_HOUR}', 'HOUR'],
+      ['%{BKY_TIME_MINUTE}', 'MINUTE'],
+      ['%{BKY_TIME_DAY}', 'DAY'],
+      ['%{BKY_TIME_MONTH}', 'MONTH'],
     ];
     this.jsonInit({
       type: 'farmbot_current_time',
-      message0: Blockly.Msg['BLOCK_CURRENT_TIME'] || '🕐 mevcut %1',
+      message0: '%{BKY_BLOCK_CURRENT_TIME}',
       args0: [{ type: 'field_dropdown', name: 'PART', options: parts }],
       output: 'Number',
       colour: '#6366f1',
@@ -139,7 +139,7 @@ Blockly.Blocks['farmbot_is_daytime'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_is_daytime',
-      message0: Blockly.Msg['BLOCK_IS_DAYTIME'] || '☀️ gündüz mü?',
+      message0: '%{BKY_BLOCK_IS_DAYTIME}',
       output: 'Boolean',
       colour: '#6366f1',
       tooltip: 'Gündüz saatlerinde doğru döndürür',

@@ -6,20 +6,20 @@ import * as Blockly from 'blockly';
 Blockly.Blocks['farmbot_plant_seed'] = {
   init() {
     const options = [
-      [Blockly.Msg['SEED_TOMATO'] || '🍅 Domates', 'TOMATO'],
-      [Blockly.Msg['SEED_CUCUMBER'] || '🥒 Salatalık', 'CUCUMBER'],
-      [Blockly.Msg['SEED_LETTUCE'] || '🥬 Marul', 'LETTUCE'],
-      [Blockly.Msg['SEED_CARROT'] || '🥕 Havuç', 'CARROT'],
-      [Blockly.Msg['SEED_PEPPER'] || '🌶 Biber', 'PEPPER'],
-      [Blockly.Msg['SEED_RADISH'] || '🌱 Turp', 'RADISH'],
-      [Blockly.Msg['SEED_SPINACH'] || '🥬 Ispanak', 'SPINACH'],
-      [Blockly.Msg['SEED_BEAN'] || '🫘 Fasulye', 'BEAN'],
-      [Blockly.Msg['SEED_CORN'] || '🌽 Mısır', 'CORN'],
-      [Blockly.Msg['SEED_STRAWBERRY'] || '🍓 Çilek', 'STRAWBERRY'],
+      ['%{BKY_SEED_TOMATO}', 'TOMATO'],
+      ['%{BKY_SEED_CUCUMBER}', 'CUCUMBER'],
+      ['%{BKY_SEED_LETTUCE}', 'LETTUCE'],
+      ['%{BKY_SEED_CARROT}', 'CARROT'],
+      ['%{BKY_SEED_PEPPER}', 'PEPPER'],
+      ['%{BKY_SEED_RADISH}', 'RADISH'],
+      ['%{BKY_SEED_SPINACH}', 'SPINACH'],
+      ['%{BKY_SEED_BEAN}', 'BEAN'],
+      ['%{BKY_SEED_CORN}', 'CORN'],
+      ['%{BKY_SEED_STRAWBERRY}', 'STRAWBERRY'],
     ];
     this.jsonInit({
       type: 'farmbot_plant_seed',
-      message0: Blockly.Msg['BLOCK_PLANT_SEED'] || '🌱 %1 tohumu ek',
+      message0: '%{BKY_BLOCK_PLANT_SEED}',
       args0: [{ type: 'field_dropdown', name: 'SEED', options }],
       previousStatement: null,
       nextStatement: null,
@@ -34,7 +34,7 @@ Blockly.Blocks['farmbot_set_seed_depth'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_set_seed_depth',
-      message0: Blockly.Msg['BLOCK_SEED_DEPTH'] || '🌱 ekim derinliğini %1 mm yap',
+      message0: '%{BKY_BLOCK_SET_SEED_DEPTH}',
       args0: [{ type: 'input_value', name: 'DEPTH', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -49,7 +49,7 @@ Blockly.Blocks['farmbot_plant_row'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_plant_row',
-      message0: Blockly.Msg['BLOCK_PLANT_ROW'] || '🌿 sıra halinde ek: %1 tohum, aralık %2 mm',
+      message0: '%{BKY_BLOCK_PLANT_ROW}',
       args0: [
         { type: 'input_value', name: 'COUNT', check: 'Number' },
         { type: 'input_value', name: 'SPACING', check: 'Number' },
@@ -68,7 +68,7 @@ Blockly.Blocks['farmbot_plant_grid'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_plant_grid',
-      message0: Blockly.Msg['BLOCK_PLANT_GRID'] || '🌾 ızgara ekim: %1 × %2 aralık %3 mm',
+      message0: '%{BKY_BLOCK_PLANT_GRID}',
       args0: [
         { type: 'input_value', name: 'ROWS', check: 'Number' },
         { type: 'input_value', name: 'COLS', check: 'Number' },
@@ -88,7 +88,7 @@ Blockly.Blocks['farmbot_pickup_seed'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_pickup_seed',
-      message0: Blockly.Msg['BLOCK_PICKUP_SEED'] || '🔽 vakumla tohum al',
+      message0: '%{BKY_BLOCK_PICKUP_SEED}',
       previousStatement: null,
       nextStatement: null,
       colour: '#16a34a',
@@ -102,7 +102,7 @@ Blockly.Blocks['farmbot_drop_seed'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_drop_seed',
-      message0: Blockly.Msg['BLOCK_DROP_SEED'] || '🔼 tohumu toprağa bırak',
+      message0: '%{BKY_BLOCK_DROP_SEED}',
       previousStatement: null,
       nextStatement: null,
       colour: '#16a34a',

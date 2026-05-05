@@ -6,15 +6,15 @@ import * as Blockly from 'blockly';
 Blockly.Blocks['farmbot_goto_plant'] = {
   init() {
     const options = [
-      [Blockly.Msg['SEED_TOMATO'] || '🍅 Domates', 'TOMATO'],
-      [Blockly.Msg['SEED_CUCUMBER'] || '🥒 Salatalık', 'CUCUMBER'],
-      [Blockly.Msg['SEED_LETTUCE'] || '🥬 Marul', 'LETTUCE'],
-      [Blockly.Msg['SEED_CARROT'] || '🥕 Havuç', 'CARROT'],
-      [Blockly.Msg['SEED_PEPPER'] || '🌶 Biber', 'PEPPER'],
+      ['%{BKY_SEED_TOMATO}', 'TOMATO'],
+      ['%{BKY_SEED_CUCUMBER}', 'CUCUMBER'],
+      ['%{BKY_SEED_LETTUCE}', 'LETTUCE'],
+      ['%{BKY_SEED_CARROT}', 'CARROT'],
+      ['%{BKY_SEED_PEPPER}', 'PEPPER'],
     ];
     this.jsonInit({
       type: 'farmbot_goto_plant',
-      message0: Blockly.Msg['BLOCK_GOTO_PLANT'] || '🌱 %1 bitkisine git',
+      message0: '%{BKY_BLOCK_GOTO_PLANT}',
       args0: [{ type: 'field_dropdown', name: 'PLANT', options }],
       previousStatement: null,
       nextStatement: null,
@@ -29,7 +29,7 @@ Blockly.Blocks['farmbot_goto_tool_bay'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_goto_tool_bay',
-      message0: Blockly.Msg['BLOCK_GOTO_TOOL_BAY'] || '🔧 alet yuvasına git',
+      message0: '%{BKY_BLOCK_GOTO_TOOL_BAY}',
       previousStatement: null,
       nextStatement: null,
       colour: '#0891b2',
@@ -43,7 +43,7 @@ Blockly.Blocks['farmbot_goto_seed_tray'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_goto_seed_tray',
-      message0: Blockly.Msg['BLOCK_GOTO_SEED_TRAY'] || '🌱 tohum tepsisine git',
+      message0: '%{BKY_BLOCK_GOTO_SEED_TRAY}',
       previousStatement: null,
       nextStatement: null,
       colour: '#0891b2',
@@ -57,7 +57,7 @@ Blockly.Blocks['farmbot_goto_water_source'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_goto_water_source',
-      message0: Blockly.Msg['BLOCK_GOTO_WATER'] || '💧 su kaynağına git',
+      message0: '%{BKY_BLOCK_GOTO_WATER_SOURCE}',
       previousStatement: null,
       nextStatement: null,
       colour: '#0891b2',
@@ -71,7 +71,7 @@ Blockly.Blocks['farmbot_grid_scan'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_grid_scan',
-      message0: Blockly.Msg['BLOCK_GRID_SCAN'] || '🔲 ızgara tarama: aralık %1 mm',
+      message0: '%{BKY_BLOCK_GRID_SCAN}',
       args0: [{ type: 'input_value', name: 'SPACING', check: 'Number' }],
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
@@ -88,7 +88,7 @@ Blockly.Blocks['farmbot_park'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_park',
-      message0: Blockly.Msg['BLOCK_PARK'] || '🅿️ park pozisyonuna git',
+      message0: '%{BKY_BLOCK_PARK}',
       previousStatement: null,
       nextStatement: null,
       colour: '#0891b2',
@@ -101,14 +101,14 @@ Blockly.Blocks['farmbot_park'] = {
 Blockly.Blocks['farmbot_calibrate'] = {
   init() {
     const axis = [
-      [Blockly.Msg['AXIS_ALL'] || 'Tüm Eksenler', 'ALL'],
+      ['%{BKY_AXIS_ALL}', 'ALL'],
       ['X', 'X'],
       ['Y', 'Y'],
       ['Z', 'Z'],
     ];
     this.jsonInit({
       type: 'farmbot_calibrate',
-      message0: Blockly.Msg['BLOCK_CALIBRATE'] || '🎯 %1 kalibre et',
+      message0: '%{BKY_BLOCK_CALIBRATE}',
       args0: [{ type: 'field_dropdown', name: 'AXIS', options: axis }],
       previousStatement: null,
       nextStatement: null,
@@ -122,14 +122,14 @@ Blockly.Blocks['farmbot_calibrate'] = {
 Blockly.Blocks['farmbot_find_home'] = {
   init() {
     const axis = [
-      [Blockly.Msg['AXIS_ALL'] || 'Tüm Eksenler', 'ALL'],
+      ['%{BKY_AXIS_ALL}', 'ALL'],
       ['X', 'X'],
       ['Y', 'Y'],
       ['Z', 'Z'],
     ];
     this.jsonInit({
       type: 'farmbot_find_home',
-      message0: Blockly.Msg['BLOCK_FIND_HOME'] || '🏠 %1 başlangıcı bul',
+      message0: '%{BKY_BLOCK_FIND_HOME}',
       args0: [{ type: 'field_dropdown', name: 'AXIS', options: axis }],
       previousStatement: null,
       nextStatement: null,

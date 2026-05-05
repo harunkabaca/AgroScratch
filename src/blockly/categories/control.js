@@ -7,7 +7,7 @@ Blockly.Blocks['control_wait'] = {
   init() {
     this.jsonInit({
       type: 'control_wait',
-      message0: Blockly.Msg['BLOCK_WAIT'],
+      message0: '%{BKY_BLOCK_WAIT}',
       args0: [{ type: 'input_value', name: 'DURATION', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -21,7 +21,7 @@ Blockly.Blocks['control_repeat'] = {
   init() {
     this.jsonInit({
       type: 'control_repeat',
-      message0: Blockly.Msg['BLOCK_REPEAT'],
+      message0: '%{BKY_BLOCK_REPEAT}',
       args0: [{ type: 'input_value', name: 'TIMES', check: 'Number' }],
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
@@ -37,7 +37,7 @@ Blockly.Blocks['control_forever'] = {
   init() {
     this.jsonInit({
       type: 'control_forever',
-      message0: Blockly.Msg['BLOCK_FOREVER'],
+      message0: '%{BKY_BLOCK_FOREVER}',
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
       previousStatement: null,
@@ -51,7 +51,7 @@ Blockly.Blocks['control_if'] = {
   init() {
     this.jsonInit({
       type: 'control_if',
-      message0: Blockly.Msg['BLOCK_IF'],
+      message0: '%{BKY_BLOCK_IF}',
       args0: [{ type: 'input_value', name: 'CONDITION', check: 'Boolean' }],
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
@@ -67,11 +67,11 @@ Blockly.Blocks['control_if_else'] = {
   init() {
     this.jsonInit({
       type: 'control_if_else',
-      message0: Blockly.Msg['BLOCK_IF_ELSE'],
+      message0: '%{BKY_BLOCK_IF_ELSE}',
       args0: [{ type: 'input_value', name: 'CONDITION', check: 'Boolean' }],
       message1: '  %1',
       args1: [{ type: 'input_statement', name: 'DO' }],
-      message2: Blockly.Msg['BLOCK_ELSE'],
+      message2: '%{BKY_BLOCK_ELSE}',
       message3: '  %1',
       args3: [{ type: 'input_statement', name: 'ELSE' }],
       previousStatement: null,
@@ -86,7 +86,7 @@ Blockly.Blocks['control_wait_until'] = {
   init() {
     this.jsonInit({
       type: 'control_wait_until',
-      message0: Blockly.Msg['BLOCK_WAIT_UNTIL'],
+      message0: '%{BKY_BLOCK_WAIT_UNTIL}',
       args0: [{ type: 'input_value', name: 'CONDITION', check: 'Boolean' }],
       previousStatement: null,
       nextStatement: null,

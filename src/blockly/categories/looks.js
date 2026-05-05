@@ -7,7 +7,7 @@ Blockly.Blocks['looks_say'] = {
   init() {
     this.jsonInit({
       type: 'looks_say',
-      message0: Blockly.Msg['BLOCK_SAY'],
+      message0: '%{BKY_BLOCK_SAY}',
       args0: [{ type: 'input_value', name: 'MESSAGE', check: 'String' }],
       previousStatement: null,
       nextStatement: null,
@@ -21,7 +21,7 @@ Blockly.Blocks['looks_sayforsecs'] = {
   init() {
     this.jsonInit({
       type: 'looks_sayforsecs',
-      message0: Blockly.Msg['BLOCK_SAY_FOR_SECS'],
+      message0: '%{BKY_BLOCK_SAY_FOR_SECS}',
       args0: [
         { type: 'input_value', name: 'MESSAGE', check: 'String' },
         { type: 'input_value', name: 'SECS', check: 'Number' },
@@ -37,16 +37,16 @@ Blockly.Blocks['looks_sayforsecs'] = {
 Blockly.Blocks['looks_switchtool'] = {
   init() {
     const options = [
-      [Blockly.Msg['TOOL_NONE'] || 'None', 'NONE'],
-      [Blockly.Msg['TOOL_WATER'] || 'Water', 'WATERING_NOZZLE'],
-      [Blockly.Msg['TOOL_SEEDER'] || 'Seeder', 'SEEDER'],
-      [Blockly.Msg['TOOL_WEEDER'] || 'Weeder', 'WEEDER'],
-      [Blockly.Msg['TOOL_CAMERA'] || 'Camera', 'CAMERA'],
+      ['%{BKY_TOOL_NONE}', 'NONE'],
+      ['%{BKY_TOOL_WATER}', 'WATERING_NOZZLE'],
+      ['%{BKY_TOOL_SEEDER}', 'SEEDER'],
+      ['%{BKY_TOOL_WEEDER}', 'WEEDER'],
+      ['%{BKY_TOOL_CAMERA}', 'CAMERA'],
     ];
 
     this.jsonInit({
       type: 'looks_switchtool',
-      message0: Blockly.Msg['BLOCK_SWITCH_TOOL'],
+      message0: '%{BKY_BLOCK_SWITCH_TOOL}',
       args0: [
         {
           type: 'field_dropdown',

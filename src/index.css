@@ -82,17 +82,11 @@ body {
   stroke-width: 0 !important;
 }
 
-/* Flyout (Blokların durduğu panel) boyutunu buradan ayarlıyoruz */
+/* Flyout (Blokların durduğu panel) boyutunu Blockly kendisi dinamik olarak hesaplayacak. 
+   SVG uyuşmazlığını önlemek için CSS ile sabit width vermiyoruz. */
 .blocklyFlyout {
-  width: 333px !important;
-  /* Panel genişliği */
   border-right: 1px solid var(--border) !important;
   pointer-events: auto !important;
-}
-
-.blocklyFlyoutBackground {
-  width: 333px !important;
-  /* Arka plan genişliği (Flyout ile aynı olmalı) */
 }
 
 /* Hayalet scrollbar (kaydırma çubuğu) temizliği ve konumlandırma */
@@ -100,11 +94,6 @@ body {
 .blocklyFlyout .blocklyScrollbarBackground {
   visibility: hidden !important;
   /* Varsayılan gizle */
-}
-
-/* Scrollbar'ı 310px genişliğe göre sağa yaslıyoruz (Kardeş öğe seçicisi) */
-.blocklyFlyoutScrollbar.blocklyScrollbarVertical {
-  transform: translateX(410px) !important;
 }
 
 /* Sadece flyout görünürken (transition bittiğinde) göster */
@@ -419,13 +408,41 @@ body {
   background: var(--accent) !important;
 }
 
-/* ── Selection Marquee & Glow ──────────────────────── */
+/* ── Toolbar Interactivity ─────────────────────────── */
+.toolbar-toggle-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.toolbar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.toolbar-toggle-btn:active {
+  transform: translateY(0.5px);
+  filter: brightness(0.9);
+}
+
+/* Hover efekti olmayan diğer butonlar için de genel etkileşim ekleyelim */
+header button:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header button:active {
+  transform: translateY(0);
+}
+
 .block-selected-glow {
   filter: drop-shadow(0 0 10px #22c55e) !important;
   transition: filter 0.2s;
 }
 
-.block-selected-glow>.blocklyPath {
+.block-selected-glow > .blocklyPath {
   stroke: #22c55e !important;
   stroke-width: 3px !important;
 }

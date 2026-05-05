@@ -7,7 +7,7 @@ Blockly.Blocks['farmbot_water_on'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_water_on',
-      message0: Blockly.Msg['BLOCK_WATER_ON'] || '💧 sulamayı aç',
+      message0: '%{BKY_BLOCK_WATER_ON}',
       previousStatement: null,
       nextStatement: null,
       colour: '#2563eb',
@@ -21,7 +21,7 @@ Blockly.Blocks['farmbot_water_off'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_water_off',
-      message0: Blockly.Msg['BLOCK_WATER_OFF'] || '🚫 sulamayı kapat',
+      message0: '%{BKY_BLOCK_WATER_OFF}',
       previousStatement: null,
       nextStatement: null,
       colour: '#2563eb',
@@ -35,7 +35,7 @@ Blockly.Blocks['farmbot_water_for'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_water_for',
-      message0: Blockly.Msg['BLOCK_WATER_FOR'] || '💧 %1 saniye sula',
+      message0: '%{BKY_BLOCK_WATER_FOR}',
       args0: [{ type: 'input_value', name: 'SECS', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -50,7 +50,7 @@ Blockly.Blocks['farmbot_set_water_flow'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_set_water_flow',
-      message0: Blockly.Msg['BLOCK_SET_WATER_FLOW'] || '💧 su akış hızını %1 mL/s yap',
+      message0: '%{BKY_BLOCK_SET_WATER_FLOW}',
       args0: [{ type: 'input_value', name: 'FLOW', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -65,7 +65,7 @@ Blockly.Blocks['farmbot_drip_irrigate'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_drip_irrigate',
-      message0: Blockly.Msg['BLOCK_DRIP_IRRIGATE'] || '🌧 damlatma sulama: %1 mL',
+      message0: '%{BKY_BLOCK_DRIP_IRRIGATE}',
       args0: [{ type: 'input_value', name: 'AMOUNT', check: 'Number' }],
       previousStatement: null,
       nextStatement: null,
@@ -80,7 +80,7 @@ Blockly.Blocks['farmbot_water_area'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_water_area',
-      message0: Blockly.Msg['BLOCK_WATER_AREA'] || '💦 alanı sula X1:%1 Y1:%2 X2:%3 Y2:%4',
+      message0: '%{BKY_BLOCK_WATER_AREA}',
       args0: [
         { type: 'input_value', name: 'X1', check: 'Number' },
         { type: 'input_value', name: 'Y1', check: 'Number' },

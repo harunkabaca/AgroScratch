@@ -7,7 +7,7 @@ Blockly.Blocks['farmbot_take_photo'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_take_photo',
-      message0: Blockly.Msg['BLOCK_TAKE_PHOTO'] || '📸 fotoğraf çek',
+      message0: '%{BKY_BLOCK_TAKE_PHOTO}',
       previousStatement: null,
       nextStatement: null,
       colour: '#7c3aed',
@@ -21,7 +21,7 @@ Blockly.Blocks['farmbot_detect_plants'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_detect_plants',
-      message0: Blockly.Msg['BLOCK_DETECT_PLANTS'] || '🌱 bitkileri tespit et',
+      message0: '%{BKY_BLOCK_DETECT_PLANTS}',
       previousStatement: null,
       nextStatement: null,
       colour: '#7c3aed',
@@ -35,7 +35,7 @@ Blockly.Blocks['farmbot_check_plant_health'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_check_plant_health',
-      message0: Blockly.Msg['BLOCK_CHECK_HEALTH'] || '🏥 bitki sağlığını kontrol et',
+      message0: '%{BKY_BLOCK_CHECK_PLANT_HEALTH}',
       output: 'Number',
       colour: '#7c3aed',
       tooltip: 'Mevcut konumdaki bitkinin sağlık yüzdesini döndürür (0-100)',
@@ -48,7 +48,7 @@ Blockly.Blocks['farmbot_measure_height'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_measure_height',
-      message0: Blockly.Msg['BLOCK_MEASURE_HEIGHT'] || '📏 bitki boyunu ölç',
+      message0: '%{BKY_BLOCK_MEASURE_HEIGHT}',
       output: 'Number',
       colour: '#7c3aed',
       tooltip: 'Mevcut konumdaki bitkinin boyunu ölçer (mm)',
@@ -61,7 +61,7 @@ Blockly.Blocks['farmbot_scan_garden'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_scan_garden',
-      message0: Blockly.Msg['BLOCK_SCAN_GARDEN'] || '🗺 tüm bahçeyi tara',
+      message0: '%{BKY_BLOCK_SCAN_GARDEN}',
       previousStatement: null,
       nextStatement: null,
       colour: '#7c3aed',
@@ -75,7 +75,7 @@ Blockly.Blocks['farmbot_plant_count'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_plant_count',
-      message0: Blockly.Msg['BLOCK_PLANT_COUNT'] || '🌿 toplam bitki sayısı',
+      message0: '%{BKY_BLOCK_PLANT_COUNT}',
       output: 'Number',
       colour: '#7c3aed',
       tooltip: 'Bahçedeki toplam bitki sayısını döndürür',

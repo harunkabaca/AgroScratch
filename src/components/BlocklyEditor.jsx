@@ -7,11 +7,42 @@ import '../blockly/blocks.js';
 import '../blockly/generator.js';
 import { getToolbox } from '../blockly/toolbox.js';
 import { translations } from '../i18n/translations';
-import { registerContinuousToolbox } from '@blockly/continuous-toolbox';
+import { registerContinuousToolbox, ContinuousToolbox } from '@blockly/continuous-toolbox';
 
 // Plugin kaydı (HMR uyumlu: CSS enjeksiyonu hatası almamak için try-catch)
 try {
   registerContinuousToolbox();
+  
+  // Blockly 11+ için ContinuousToolbox'ın dinamik kategori (VARIABLE vb.) hatasını düzeltiyoruz:
+  // "Unable to find [category][flyoutinflater] in the registry" hatasını önler.
+  if (ContinuousToolbox && ContinuousToolbox.prototype) {
+    // 1. getInitialFlyoutContents'i yamalıyoruz çünkü kütüphane içinde 'this' bağlamı kayboluyor
+    ContinuousToolbox.prototype.getInitialFlyoutContents = function() {
+      return this.getToolboxItems().flatMap(item => this.convertToolboxItemToFlyoutItems(item));
+    };
+
+    // 2. convertToolboxItemToFlyoutItems'ı yamalayarak dinamik kategorileri (VARIABLE) desteklemesini sağlıyoruz
+    ContinuousToolbox.prototype.convertToolboxItemToFlyoutItems = function(toolboxItem) {
+      let contents = [];
+      if (toolboxItem instanceof Blockly.ToolboxCategory) {
+        contents.push({ kind: 'LABEL', text: toolboxItem.getName() });
+        let itemContents = toolboxItem.getContents();
+        if (typeof itemContents === 'string') {
+          // Dinamik kategoriyi (örneğin VARIABLE) burada çözüyoruz
+          const ws = this.getWorkspace();
+          const targetWs = ws.targetWorkspace || ws;
+          const callback = targetWs.getToolboxCategoryCallback(itemContents);
+          if (callback) {
+            itemContents = callback(targetWs);
+          } else {
+            itemContents = [];
+          }
+        }
+        contents = contents.concat(itemContents);
+      }
+      return contents;
+    };
+  }
 } catch (e) {
   if (!e.message.includes('already injected')) {
     console.error('Continuous Toolbox registration error:', e);
@@ -48,6 +79,9 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
   const [marquee, setMarquee] = useState(null);
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const selectionSet = useRef(new Set());
+  const [workspaceKey, setWorkspaceKey] = useState(0);
+  const [savedXml, setSavedXml] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // ── Shift Takibi ────────────────────────────────
   useEffect(() => {
@@ -60,16 +94,48 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
     };
   }, []);
 
+  // Zorunlu Cache Temizleme (Sadece bir kez çalışır)
+  useEffect(() => {
+    const version = 'i18n-fix-v3';
+    if (localStorage.getItem('agroscratch-version') !== version) {
+      localStorage.setItem('agroscratch-version', version);
+      window.location.reload(true);
+    }
+  }, []);
+
   // ── Dil ─────────────────────────────────────────
   useEffect(() => {
     const locale = LOCALES[lang] || TrLocale;
     Blockly.setLocale(locale);
     const t = translations[lang];
+    
+    console.log(`[BlocklyEditor] Switching language to: ${lang}`);
+    
+    const customMsgs = {};
     Object.keys(t).forEach(key => {
-      if (key.startsWith('BLOCK_')) Blockly.Msg[key] = t[key];
+      if (key === key.toUpperCase()) customMsgs[key] = t[key];
     });
+    Object.assign(Blockly.Msg, customMsgs);
+
     if (workspaceRef.current) {
-      workspaceRef.current.updateToolbox(getToolbox(lang));
+      // 1. Perdeyi indir (fade in)
+      setIsTransitioning(true);
+
+      // 2. Perdenin inmesi için tarayıcıya 200ms zaman tanı, sonra ağır işlemi yap
+      setTimeout(() => {
+        const ws = workspaceRef.current;
+        if (!ws) return;
+        
+        try {
+          const xml = Blockly.Xml.workspaceToDom(ws);
+          setSavedXml(xml);
+        } catch (e) {
+          console.error("XML yedekleme hatası:", e);
+        }
+
+        // React'ı yenilemeye zorla
+        setWorkspaceKey(prev => prev + 1);
+      }, 200);
     }
   }, [lang]);
 
@@ -110,26 +176,57 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
     // Flyout (Toolbox'taki bloklar) ölçeğini küçültelim ve KESİN OLARAK KİLİTLEYELİM
     if (ws.getFlyout()) {
       const flyout = ws.getFlyout();
-      const flyoutWs = flyout.workspace_;
+      const flyoutWs = flyout.getWorkspace();
       
       // Flyout zoom olaylarını yakalayıp sadece kaydırmaya yönlendiriyoruz
-      const flyoutSvg = flyout.workspace_.getSvgRoot();
-      flyoutSvg.addEventListener('wheel', (e) => {
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault(); // Zoom'u engelle
-          e.stopPropagation(); 
-        }
-      }, { capture: true, passive: false });
+      const flyoutSvg = flyout.getSvgGroup ? flyout.getSvgGroup() : (flyoutWs && flyoutWs.getParentSvg ? flyoutWs.getParentSvg() : null);
+      if (flyoutSvg) {
+        flyoutSvg.addEventListener('wheel', (e) => {
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault(); // Zoom'u engelle
+            e.stopPropagation(); 
+          }
+        }, { capture: true, passive: false });
+      }
 
-      // Ölçeği sadece bir kez düzgünce ayarla
-      flyoutWs.setScale(0.65);
+      // KESİN KİLİTLEME: Flyout'un ana workspace'in ölçeğini takip etmesini engellemek için
+      if (flyout && flyout.getFlyoutScale) {
+        flyout.getFlyoutScale = function() {
+          return 0.65;
+        };
+      }
+
+      // Flyout arka plan genişliğini SVG ile senkronize tutmak için JS seviyesinde kilitliyoruz.
+      // Almanca/İngilizce uzun kelimeler için 420px idealdir.
+      if (flyout && typeof flyout.getWidth === 'function') {
+        const originalGetWidth = flyout.getWidth;
+        flyout.getWidth = function() {
+          return 420;
+        };
+      }
       
-      // Zoom butonlarının flyout'u etkilemesini engellemek için zoom fonksiyonunu kapa
-      flyoutWs.zoom = () => {};
+      if (flyout && typeof flyout.reflow === 'function') {
+        flyout.reflow();
+      }
     }
 
     workspaceRef.current = ws;
     if (onWorkspaceReady) onWorkspaceReady(ws);
+
+    // Eğer eski bir yedek varsa (dil değişimi sebebiyle), blokları geri yükle
+    if (savedXml) {
+      try {
+        Blockly.Xml.domToWorkspace(savedXml, ws);
+      } catch (e) {
+        console.error("XML geri yükleme hatası:", e);
+      }
+      setSavedXml(null);
+    }
+
+    // Ağır işlemler bitti, perdeyi kaldır (fade out)
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 50);
 
     const clickHandler = (e) => {
       if (e.type === Blockly.Events.CLICK && !e.blockId) clearSelection();
@@ -145,7 +242,7 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
       ws.dispose();
       workspaceRef.current = null;
     };
-  }, []);
+  }, [workspaceKey]);
 
   const clearSelection = useCallback(() => {
     selectionSet.current.forEach(id => {
@@ -205,8 +302,49 @@ export default function BlocklyEditor({ onWorkspaceReady, lang, theme, t }) {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+      
+      {/* ── Perde (Curtain Transition) ── */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundColor: theme === 'dark' ? '#0f172a' : '#f8fafc',
+        opacity: isTransitioning ? 1 : 0,
+        pointerEvents: isTransitioning ? 'auto' : 'none',
+        transition: 'opacity 0.2s ease-in-out',
+        zIndex: 9999, // En üstte
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{ 
+          width: 30, height: 30, 
+          border: '3px solid var(--border)', 
+          borderTopColor: '#22c55e', 
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite' 
+        }} />
+      </div>
+
+      <style>
+        {`
+          @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          @keyframes blocklyFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+        `}
+      </style>
+
       {/* Blockly Container */}
-      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+      <div 
+        key={workspaceKey} 
+        ref={containerRef} 
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          animation: 'blocklyFadeIn 0.3s ease-out forwards'
+        }} 
+      />
 
       {/* Marquee Overlay (Sadece Shift basılıyken aktif) */}
       <div

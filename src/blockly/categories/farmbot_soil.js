@@ -7,7 +7,7 @@ Blockly.Blocks['farmbot_soil_analysis'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_soil_analysis',
-      message0: Blockly.Msg['BLOCK_SOIL_ANALYSIS'] || '🧪 toprak analizi yap',
+      message0: '%{BKY_BLOCK_SOIL_ANALYSIS}',
       previousStatement: null,
       nextStatement: null,
       colour: '#a16207',
@@ -21,7 +21,7 @@ Blockly.Blocks['farmbot_read_moisture'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_moisture',
-      message0: Blockly.Msg['BLOCK_READ_MOISTURE'] || '💧 toprak nemini ölç',
+      message0: '%{BKY_BLOCK_READ_MOISTURE}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Mevcut konumda toprak nem seviyesini okur (0-100)',
@@ -34,7 +34,7 @@ Blockly.Blocks['farmbot_read_soil_temp'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_soil_temp',
-      message0: Blockly.Msg['BLOCK_READ_SOIL_TEMP'] || '🌡 toprak sıcaklığını ölç',
+      message0: '%{BKY_BLOCK_READ_SOIL_TEMP}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Mevcut konumda toprak sıcaklığını okur (°C)',
@@ -47,7 +47,7 @@ Blockly.Blocks['farmbot_read_ph'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_ph',
-      message0: Blockly.Msg['BLOCK_READ_PH'] || '🧪 toprak pH değerini ölç',
+      message0: '%{BKY_BLOCK_READ_PH}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Mevcut konumda toprak pH seviyesini okur (0-14)',
@@ -60,7 +60,7 @@ Blockly.Blocks['farmbot_read_air_temp'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_air_temp',
-      message0: Blockly.Msg['BLOCK_READ_AIR_TEMP'] || '🌤 hava sıcaklığını ölç',
+      message0: '%{BKY_BLOCK_READ_AIR_TEMP}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Hava sıcaklığı sensöründen değer okur (°C)',
@@ -73,7 +73,7 @@ Blockly.Blocks['farmbot_read_humidity'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_humidity',
-      message0: Blockly.Msg['BLOCK_READ_HUMIDITY'] || '💨 hava nemini ölç',
+      message0: '%{BKY_BLOCK_READ_HUMIDITY}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Hava nem seviyesini okur (%)',
@@ -86,7 +86,7 @@ Blockly.Blocks['farmbot_read_light'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_read_light',
-      message0: Blockly.Msg['BLOCK_READ_LIGHT'] || '☀️ ışık seviyesini ölç',
+      message0: '%{BKY_BLOCK_READ_LIGHT}',
       output: 'Number',
       colour: '#a16207',
       tooltip: 'Güneş ışığı yoğunluğunu okur (lux)',
@@ -99,7 +99,7 @@ Blockly.Blocks['farmbot_is_soil_wet'] = {
   init() {
     this.jsonInit({
       type: 'farmbot_is_soil_wet',
-      message0: Blockly.Msg['BLOCK_IS_SOIL_WET'] || '💧 toprak yeterince nemli mi?',
+      message0: '%{BKY_BLOCK_IS_SOIL_WET}',
       output: 'Boolean',
       colour: '#a16207',
       tooltip: 'Toprak nem seviyesi yeterli ise doğru döndürür',
